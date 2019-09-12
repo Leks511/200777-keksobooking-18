@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Целковников](https://up.htmlacademy.ru/javascript/18/user/200777).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Захарченко](https://up.htmlacademy.ru/javascript/18/user/1033227).
 
 ---
 
