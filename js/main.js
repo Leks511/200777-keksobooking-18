@@ -1,5 +1,7 @@
 'use strict';
 
+var ENTER_KEYCODE = 13;
+
 function getRandomValue(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -90,10 +92,51 @@ var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pi
 
 var mapPinsList = document.querySelector('.map__pins');
 
-var fieldsets = document.querySelectorAll('fieldset');
 
-for (var i = 0; i < fieldsets.length; i++) {
-  fieldsets[i].setAttribute('disabled', 'disabled');
+function setDisabledToElements(elements) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].setAttribute('disabled', 'disabled');
+  }
 }
 
+function removeDisabledFromElements(elements) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].removeAttribute('disabled');
+  }
+}
 
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsets = adForm.querySelectorAll('fieldset');
+
+var mapFiltersForm = document.querySelector('.map__filters');
+var mapFiltersFormSelectsAndFieldset = mapFiltersForm.querySelectorAll('fieldset, select');
+
+function inactivateForms() {
+  mainMap.classList.add('map--faded');
+  adForm.classList.add('ad-form--disabled');
+
+  setDisabledToElements(adFormFieldsets);
+  setDisabledToElements(mapFiltersFormSelectsAndFieldset);
+}
+
+function activateForms() {
+  mainMap.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+
+  removeDisabledFromElements(adFormFieldsets);
+  removeDisabledFromElements(mapFiltersFormSelectsAndFieldset);
+}
+
+inactivateForms();
+
+var mainMapPin = document.querySelector('.map__pin--main');
+
+mainMapPin.addEventListener('mousedown', function() {
+  activateForms();
+});
+
+mainMapPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activateForms();
+  }
+});
