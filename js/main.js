@@ -32,7 +32,7 @@ function createPins(array) {
     fragmentForPins.appendChild(createPinElement(array[i]));
   }
 
-  mapPins.appendChild(fragmentForPins);
+  mapPinsList.appendChild(fragmentForPins);
 }
 
 var typesList = ["palace", "flat", "house", "bungalo"];
@@ -85,9 +85,15 @@ function createAdsList() {
 var adsList = createAdsList();
 
 var mainMap = document.querySelector('.map');
-mainMap.classList.remove('map--faded');
 
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
-var mapPins = document.querySelector('.map__pins');
-createPins(adsList);
+var mapPinsList = document.querySelector('.map__pins');
+
+var fieldsets = document.querySelectorAll('fieldset');
+
+for (var i = 0; i < fieldsets.length; i++) {
+  fieldsets[i].setAttribute('disabled', 'disabled');
+}
+
+
