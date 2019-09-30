@@ -133,10 +133,70 @@ var mainMapPin = document.querySelector('.map__pin--main');
 
 mainMapPin.addEventListener('mousedown', function() {
   activateForms();
+  getMainMapPinCoordinate(true);
 });
 
 mainMapPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
     activateForms();
+    getMainMapPinCoordinate(true);
   }
 });
+
+var MAIN_PIN_WIDTH = 65;
+var MAIN_PIN_HEIGHT = 65;
+
+var MAIN_PIN_PSEUDO_AFTER_HEIGHT = 19;
+var MAIN_PIN_IMG_BORDER_WIDTH = 3;
+
+function getMainMapPinCoordinate(isActive) {
+  var mapPinOffsetTop = parseInt(mainMapPin.style.top);
+  var mapPinOffsetLeft = parseInt(mainMapPin.style.left);
+
+  var mapPinX = Math.round(mapPinOffsetLeft - MAIN_PIN_WIDTH/2);
+  var mapPinY = Math.round(mapPinOffsetTop + MAIN_PIN_HEIGHT/2);
+
+  if (isActive) {
+    mapPinY = mapPinOffsetTop + MAIN_PIN_HEIGHT - MAIN_PIN_IMG_BORDER_WIDTH + MAIN_PIN_PSEUDO_AFTER_HEIGHT;
+  }
+
+  var mapPinCoordinate = mapPinX + ', ' + mapPinY;
+
+  addressInput.value = mapPinCoordinate;
+}
+
+var addressInput = adForm.querySelector('#address');
+
+getMainMapPinCoordinate(false);
+
+
+
+function onAdFormRoomsGuestsChecking(evt) {
+  var roomsQuantityValue = roomsQuantitySelect.value;
+  var guestsQuantityValue = guestsQuantitySelect.value;
+
+  if (roomsQuantityValue !== guestsQuantityValue) {
+    evt.preventDefault();
+
+    roomsQuantitySelect.setCustomValidity('Количество гостей должно соответствовать количеству комнат');
+
+  } else {
+    roomsQuantitySelect.setCustomValidity('');
+  }
+}
+
+var roomsQuantitySelect = adForm.querySelector('#room_number');
+var guestsQuantitySelect = adForm.querySelector('#capacity');
+
+adForm.addEventListener('submit', function(evt) {
+  onAdFormRoomsGuestsChecking(evt);
+});
+
+roomsQuantitySelect.addEventListener('change', function() {
+  roomsQuantitySelect.setCustomValidity('');
+});
+
+guestsQuantitySelect.addEventListener('change', function () {
+  roomsQuantitySelect.setCustomValidity('');
+});
+
