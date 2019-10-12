@@ -12,7 +12,7 @@
   // Данные для добавления пинов после включения интерфейса
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinsList = document.querySelector('.map__pins');
-  var onErrorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
 
 
   // Функции для включения/выключения интерфейса
@@ -42,8 +42,8 @@
     formAddingYourAdvertise.classList.remove('ad-form--disabled');
 
 
-    // При включении интерфейса получаем данные с сервера и запускаем рендеринг пинов при успехе
-    window.backend.load(createPins, onLoadError);
+    // При включении интерфейса получаем данные с сервера и запускаем рендеринг пинов при успехе, при ошибке - обработчик ошибки
+    window.backend.load(createPins, handleLoadError);
 
     // Активируем формы сортировки
     removeDisabledAttributeFromFormElements(fieldsetsFromFormAddingYourAdvertise);
@@ -71,8 +71,9 @@
     mapPinsList.appendChild(fragmentForPins);
   }
 
-  function onLoadError(errorMessage) {
-    var elementWithErrorText = onErrorTemplate.cloneNode(true);
+  // функция - обработчик ошибки
+  function handleLoadError(errorMessage) {
+    var elementWithErrorText = errorMessageTemplate.cloneNode(true);
     elementWithErrorText.querySelector('.error__message').textContent = errorMessage;
     main.appendChild(elementWithErrorText);
   }
