@@ -5,6 +5,7 @@
   var pinTemplateElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinsListElement = document.querySelector('.map__pins');
 
+  // Функция, создающая пин на карте
   function createPinElement(advertise) {
     var pin = pinTemplateElement.cloneNode(true);
 

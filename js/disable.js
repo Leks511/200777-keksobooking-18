@@ -3,13 +3,13 @@
 (function () {
   // Данные для включения интерфейса
   var mapElement = document.querySelector('.map');
-  var adInfoFormElement = document.querySelector('.ad-form');
-  var filters = document.querySelectorAll('ad-form input, .ad-form select, .map__filters input, .map__filters select');
+  var adFormElement = document.querySelector('.ad-form');
+  var filters = document.querySelectorAll('.ad-form input, .ad-form select, .map__filters input, .map__filters select');
 
-  // Функции для выключения интерфейса
+  // Функции выключения интерфейса
   window.disableInterface = function () {
     mapElement.classList.add('map--faded');
-    adInfoFormElement.classList.add('ad-form--disabled');
+    adFormElement.classList.add('ad-form--disabled');
 
     filters.forEach(function (filter) {
       filter.setAttribute('disabled', 'disabled');
