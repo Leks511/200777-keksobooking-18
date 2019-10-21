@@ -16,6 +16,13 @@
     mainElement.appendChild(errorMessageElement);
   }
 
+  function handleLoadSuccess(data) {
+    // Сохраним сразу в глобальную область видимости все объявления для последующего использования при сортировке
+    window.advertisements = data;
+    // Отдадим на рендеринг копию, которую получили при включении интерфейса
+    window.render(data);
+  }
+
   // Функции включения интерфейса
   window.enableInterface = function () {
     mapElement.classList.remove('map--faded');
@@ -26,7 +33,7 @@
     });
 
     // При включении интерфейса получаем данные с сервера и запускаем рендеринг пинов при успехе, при ошибке - обработчик ошибки
-    window.backend.load(window.render, handleLoadError);
+    window.backend.load(handleLoadSuccess, handleLoadError);
   };
 
   // Прослушка активации SPA при нажатии на главный пин

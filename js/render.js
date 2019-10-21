@@ -2,10 +2,19 @@
 'use strict';
 
 (function () {
-  var advertisements = [];
   var pinTemplateElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinsListElement = document.querySelector('.map__pins');
-  var QUANITITY_TO_RENDER;
+
+  // Функция, удаляющая неглавные пины
+  window.removePins = function () {
+    var mapPinsList = document.querySelectorAll('.map__pin');
+
+    mapPinsList.forEach(function (pin) {
+      if (!(pin.classList.contains('map__pin--main'))) {
+        pin.remove();
+      }
+    });
+  };
 
   // Функция, создающая пин на карте
   function createPinElement(advertise) {
@@ -19,15 +28,14 @@
   }
 
   window.render = function (data) {
-    advertisements = data;
-    QUANITITY_TO_RENDER = 5;
-
     var fragmentForPins = new DocumentFragment();
+    var takeNumber = data.length > 5 ? 5 : data.length;
 
-    for (var i = 0; i < QUANITITY_TO_RENDER; i++) {
-      fragmentForPins.appendChild(createPinElement(advertisements[i]));
+    for (var i = 0; i < takeNumber; i++) {
+      fragmentForPins.appendChild(createPinElement(data[i]));
     }
 
     mapPinsListElement.appendChild(fragmentForPins);
-  }
+
+  };
 })();
