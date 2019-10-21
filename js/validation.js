@@ -1,33 +1,36 @@
 'use strict';
 
 (function () {
-  var adForm = document.querySelector('.ad-form');
-  var roomsQuantitySelect = adForm.querySelector('#room_number');
-  var guestsQuantitySelect = adForm.querySelector('#capacity');
+  var adFormElement = document.querySelector('.ad-form');
+  var roomsElement = document.querySelector('#room_number');
+  var guestsElement = document.querySelector('#capacity');
 
-  function onAdFormRoomsGuestsChecking(evt) {
-    var roomsQuantityValue = roomsQuantitySelect.value;
-    var guestsQuantityValue = guestsQuantitySelect.value;
+  // Функция обработки изменений полей гостей и комнат
+  function handleRoomsGeustsChecking(evt) {
+    var roomsValue = roomsElement.value;
+    var guestsValue = guestsElement.value;
 
-    if (roomsQuantityValue !== guestsQuantityValue) {
+    if (roomsValue !== guestsValue) {
       evt.preventDefault();
 
-      roomsQuantitySelect.setCustomValidity('Количество гостей должно соответствовать количеству комнат');
-
+      roomsElement.setCustomValidity('Количество гостей должно соответствовать количеству комнат');
     } else {
-      roomsQuantitySelect.setCustomValidity('');
+      roomsElement.setCustomValidity('');
     }
   }
 
-  adForm.addEventListener('submit', function (evt) {
-    onAdFormRoomsGuestsChecking(evt);
+  // Обработка гостей и комнат по изменению значения
+  roomsElement.addEventListener('change', function () {
+    roomsElement.setCustomValidity('');
   });
 
-  roomsQuantitySelect.addEventListener('change', function () {
-    roomsQuantitySelect.setCustomValidity('');
+  // Обработка гостей и комнат по изменению значения
+  guestsElement.addEventListener('change', function () {
+    roomsElement.setCustomValidity('');
   });
 
-  guestsQuantitySelect.addEventListener('change', function () {
-    roomsQuantitySelect.setCustomValidity('');
+  // Обработка гостей и комнат по отправке формы
+  adFormElement.addEventListener('submit', function (evt) {
+    handleRoomsGeustsChecking(evt);
   });
 })();
