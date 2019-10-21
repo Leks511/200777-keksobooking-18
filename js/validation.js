@@ -30,7 +30,5 @@
   });
 
   // Обработка гостей и комнат по отправке формы
-  adFormElement.addEventListener('submit', function (evt) {
-    handleRoomsGeustsChecking(evt);
-  });
+  adFormElement.addEventListener('submit', handleRoomsGeustsChecking);
 })();
