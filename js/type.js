@@ -4,11 +4,10 @@
 
 (function () {
   var typeElement = document.querySelector('#housing-type');
-  var housingType;
 
-  window.updateAdvertisements = function () {
+  window.updateAdvertisements = function (evt) {
     window.removePins();
-
+    var housingType = evt.target.value;
     // Если тип жилья не ровняется "any", то в рендеринг передаются отфильтрованные объявления
     if (housingType !== 'any') {
       window.render(
@@ -22,8 +21,5 @@
     } // Иначе - как были получены
   };
 
-  typeElement.addEventListener('change', function () {
-    housingType = typeElement.value;
-    window.updateAdvertisements();
-  });
+  typeElement.addEventListener('change', window.updateAdvertisements);
 })();
