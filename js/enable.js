@@ -19,7 +19,6 @@
   function handleLoadSuccess(data) {
     // Сохраним сразу в глобальную область видимости все объявления для последующего использования при сортировке
     window.advertisements = data;
-    console.log(window.advertisements)
     // Отдадим на рендеринг копию, которую получили при включении интерфейса
     window.render(data);
   }

@@ -1,14 +1,19 @@
 'use strict';
 
 (function () {
-  var typeElement = document.querySelector('#housing-type');
-  var priceElement = document.querySelector('#housing-price');
-  var roomsElement = document.querySelector('#housing-rooms');
-  var guestsElement = document.querySelector('#housing-guests');
+  var filterElements = {
+    type: document.querySelector('#housing-type'),
+    price: document.querySelector('#housing-price'),
+    rooms: document.querySelector('#housing-rooms'),
+    guests: document.querySelector('#housing-guests'),
+  };
+
 
   var filters = [
     function updateOnType(list) {
-      var housingType = typeElement.value;
+      window.removePins();
+
+      var housingType = filterElements.type.value;
 
       var filteredList = list.filter(function (it) {
         return it.offer.type === housingType;
@@ -17,7 +22,9 @@
       return filteredList;
     },
     function updateOnPrice(list) {
-      var housingPrice = priceElement.value;
+      window.removePins();
+
+      var housingPrice = filterElements.price.value;
 
       // Функция приведения значения цены объявления к сравниваемому виду
       function getPriceLabel(price) {
@@ -38,7 +45,9 @@
       return filteredList;
     },
     function updateOnRooms(list) {
-      var housingRooms = roomsElement.value;
+      window.removePins();
+
+      var housingRooms = filterElements.rooms.value;
 
       var filteredList = list.filter(function (it) {
         return it.offer.rooms === parseInt(housingRooms, 10);
@@ -47,7 +56,9 @@
       return filteredList;
     },
     function updateOnGuests(list) {
-      var housingGuests = guestsElement.value;
+      window.removePins();
+
+      var housingGuests = filterElements.guests.value;
 
       var filteredList = list.filter(function (it) {
         return it.offer.guests === parseInt(housingGuests, 10);
@@ -56,4 +67,14 @@
       return filteredList;
     }
   ];
+
+  var filteredAdvertisements = filters.reduce(function (result, filter) {
+    return filter(result);
+  }, window.advertisements);
+
+  filterElements.forEach(function (element) {
+    element.addEventListener('change', function () {
+      window.render(filteredAdvertisements);
+    });
+  });
 })();
