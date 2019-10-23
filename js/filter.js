@@ -1,25 +1,36 @@
+/* eslint-disable guard-for-in */
 'use strict';
 
 (function () {
-  var filterElements = {
-    type: document.querySelector('#housing-type'),
-    price: document.querySelector('#housing-price'),
-    rooms: document.querySelector('#housing-rooms'),
-    guests: document.querySelector('#housing-guests'),
-  };
+  var filterElements = [
+    document.querySelector('#housing-type'),
+    document.querySelector('#housing-price'),
+    document.querySelector('#housing-rooms'),
+    document.querySelector('#housing-guests'),
+  ];
 
+  var filteredList;
 
+  // Функция приведения значения цены объявления к сравниваемому виду
+  function getPriceLabel(price) {
+    if (price < 10000) {
+      price = 'low';
+    } else if (price >= 10000 && price <= 50000) {
+      price = 'middle';
+    } else {
+      price = 'high';
+    }
+    return price;
+  }
+
+  // Массив функций с параметрами для фильтрации входного массива
   var filters = [
-    function(list) {
-      window.removePins();
+    function (list, filterValue) {
+      // Фильтрация по типу
 
-      var housingType = filterElements.type.value;
-      var filteredList;
-
-      // Фильтрация взятого массива по правилу
-      if (housingType !== 'any') {
+      if (filterValue !== 'any') {
         filteredList = list.filter(function (it) {
-          return it.offer.type === housingType;
+          return it.offer.type === filterValue;
         });
       } else {
         filteredList = list;
@@ -27,28 +38,12 @@
 
       return filteredList;
     },
-    function(list) {
-      window.removePins();
+    function (list, filterValue) {
+      // Фильтрация по цене
 
-      var housingPrice = filterElements.price.value;
-      var filteredList;
-
-      // Функция приведения значения цены объявления к сравниваемому виду
-      function getPriceLabel(price) {
-        if (price < 10000) {
-          price = 'low';
-        } else if (price >= 10000 && price <= 50000) {
-          price = 'middle';
-        } else {
-          price = 'high';
-        }
-        return price;
-      }
-
-      // Фильтрация взятого массива по правилу
-      if (housingPrice !== 'any') {
+      if (filterValue !== 'any') {
         filteredList = list.filter(function (it) {
-          return getPriceLabel(it.offer.price) === housingPrice;
+          return getPriceLabel(it.offer.price) === filterValue;
         });
       } else {
         filteredList = list;
@@ -56,15 +51,12 @@
 
       return filteredList;
     },
-    function(list) {
-      window.removePins();
+    function (list, filterValue) {
+      // Фильтрация по количеству комнат
 
-      var housingRooms = filterElements.rooms.value;
-      var filteredList;
-
-      if (housingRooms !== 'any') {
+      if (filterValue !== 'any') {
         filteredList = list.filter(function (it) {
-          return it.offer.rooms === parseInt(housingRooms, 10);
+          return it.offer.rooms === parseInt(filterValue, 10);
         });
       } else {
         filteredList = list;
@@ -72,15 +64,12 @@
 
       return filteredList;
     },
-    function(list) {
-      window.removePins();
+    function (list, filterValue) {
+      // Фильтрация по количеству гостей
 
-      var housingGuests = filterElements.guests.value;
-      var filteredList;
-
-      if (housingGuests !== 'any') {
+      if (filterValue !== 'any') {
         filteredList = list.filter(function (it) {
-          return it.offer.guests === parseInt(housingGuests, 10);
+          return it.offer.guests === parseInt(filterValue, 10);
         });
       } else {
         filteredList = list;
@@ -90,17 +79,17 @@
     }
   ];
 
-  for (var element in filterElements) {
-    filterElements[element].addEventListener('change', function (){
+  filterElements.forEach(function (element) {
+    element.addEventListener('change', function () {
 
-      var filteredAdvertisements = filters.reduce(function(result, filter) {
-        var filtered = filter(result);
-        return filtered;
+      var filteredAdvertisements = filters.reduce(function (result, filter, index) {
+        window.removePins();
+
+        return filter(result, filterElements[index].value);
       }, window.advertisements);
 
-      console.log(filteredAdvertisements);
       window.render(filteredAdvertisements);
     });
-  }
+  });
 
 })();
