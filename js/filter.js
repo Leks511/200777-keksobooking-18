@@ -7,7 +7,56 @@
     document.querySelector('#housing-price'),
     document.querySelector('#housing-rooms'),
     document.querySelector('#housing-guests'),
+
+    // document.querySelector('#filter-wifi'),
+    // document.querySelector('#filter-dishwasher'),
+    // document.querySelector('#filter-parking'),
+    // document.querySelector('#filter-washer'),
+    // document.querySelector('#filter-elevator'),
+    // document.querySelector('#filter-conditioner')
   ];
+
+  var checkbox = document.querySelector('#filter-wifi');
+
+  // Отобразить только те элементы, features которых содержит значение, совпадаемое со значением кликнутого элемента
+
+  // Если массив содержит элемент со значением, равным filterValue, то вернуть массив из 1 этого элемента
+  function getFeature(list, filterValue) {
+    var result = list.filter(function (it) {
+      return it === filterValue;
+    });
+
+    if (result[0]) {
+      return result[0];
+    } else {
+      return;
+    }
+
+
+    // return result[0];
+  }
+
+  function checkFeature(list, evt) {
+    if (evt.target.checked) {
+      filteredList = list.filter(function (it) {
+      // Проверим: содержит ли массив features значение filterValue
+        return getFeature(it.offer.features, evt.target.value) === evt.target.value;
+      });
+
+      console.log(filteredList)
+    } else {
+      // filteredList = list;
+      console.log('no')
+    }
+  }
+
+  // кликаем на элемент
+  checkbox.addEventListener('click', function(evt) {
+    checkFeature(window.advertisements, evt);
+  });
+
+
+
 
   var filteredList;
 
@@ -89,6 +138,8 @@
       }, window.advertisements);
 
       window.render(filteredAdvertisements);
+      console.log(filteredAdvertisements);
+
     });
   });
 
