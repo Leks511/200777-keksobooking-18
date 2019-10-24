@@ -37,8 +37,10 @@
       pinsFragment.appendChild(createPinElement(data[i]));
     }
 
-    popupFragment.appendChild(window.createPopup(data[0]));
-
+    if (data[0]) {
+      popupFragment.appendChild(window.createPopup(data[0]));
+    }
+    
     mapPinsListElement.appendChild(pinsFragment);
     mainElement.insertBefore(popupFragment, filterBlock);
   };
