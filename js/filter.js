@@ -31,9 +31,6 @@
     } else {
       return;
     }
-
-
-    // return result[0];
   }
 
   function checkFeature(list, evt) {
@@ -45,7 +42,6 @@
 
       console.log(filteredList)
     } else {
-      // filteredList = list;
       console.log('no')
     }
   }
@@ -54,9 +50,6 @@
   checkbox.addEventListener('click', function(evt) {
     checkFeature(window.advertisements, evt);
   });
-
-
-
 
   var filteredList;
 
