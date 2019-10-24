@@ -1,26 +1,10 @@
-/* eslint-disable guard-for-in */
 'use strict';
 
 (function () {
-  var filterElements = [
-    document.querySelector('#housing-type'),
-    document.querySelector('#housing-price'),
-    document.querySelector('#housing-rooms'),
-    document.querySelector('#housing-guests'),
+  var filterElements = document.querySelectorAll('select[id^="housing-"], input[id ^= "filter-"]');
+  var filteredList;
 
-    // document.querySelector('#filter-wifi'),
-    // document.querySelector('#filter-dishwasher'),
-    // document.querySelector('#filter-parking'),
-    // document.querySelector('#filter-washer'),
-    // document.querySelector('#filter-elevator'),
-    // document.querySelector('#filter-conditioner')
-  ];
-
-  var checkbox = document.querySelector('#filter-wifi');
-
-  // Отобразить только те элементы, features которых содержит значение, совпадаемое со значением кликнутого элемента
-
-  // Если массив содержит элемент со значением, равным filterValue, то вернуть массив из 1 этого элемента
+  // Если массив содержит элемент со значением, равным filterValue, то вернуть этот элемент для дальнейшего сравнения
   function getFeature(list, filterValue) {
     var result = list.filter(function (it) {
       return it === filterValue;
@@ -29,29 +13,24 @@
     if (result[0]) {
       return result[0];
     } else {
-      return;
+      return null;
     }
   }
 
-  function checkFeature(list, evt) {
-    if (evt.target.checked) {
+  // Функция, фильтрующая по чекбоксам (features)
+  function checkFeature(list, filterValue, checkbox) {
+    if (checkbox.checked) {
       filteredList = list.filter(function (it) {
       // Проверим: содержит ли массив features значение filterValue
-        return getFeature(it.offer.features, evt.target.value) === evt.target.value;
+        return getFeature(it.offer.features, filterValue) === filterValue;
       });
 
-      console.log(filteredList)
     } else {
-      console.log('no')
+      filteredList = list;
     }
+
+    return filteredList;
   }
-
-  // кликаем на элемент
-  checkbox.addEventListener('click', function(evt) {
-    checkFeature(window.advertisements, evt);
-  });
-
-  var filteredList;
 
   // Функция приведения значения цены объявления к сравниваемому виду
   function getPriceLabel(price) {
@@ -65,7 +44,7 @@
     return price;
   }
 
-  // Массив функций с параметрами для фильтрации входного массива
+  // Массив функций с параметрами для фильтрации входного массива по селектам
   var filters = [
     function (list, filterValue) {
       // Фильтрация по типу
@@ -121,19 +100,19 @@
     }
   ];
 
+  // Добавим в массив функций-фильтров другие однотипные функции-фильтры для чекбоксов по их числу
+  for (var i = 0; i < document.querySelectorAll('input[id ^= "filter-"]').length; i++) {
+    filters.push(checkFeature);
+  }
+
   filterElements.forEach(function (element) {
     element.addEventListener('change', function () {
 
       var filteredAdvertisements = filters.reduce(function (result, filter, index) {
         window.removePins();
-
-        return filter(result, filterElements[index].value);
+        return filter(result, filterElements[index].value, filterElements[index]);
       }, window.advertisements);
-
       window.render(filteredAdvertisements);
-      console.log(filteredAdvertisements);
-
     });
   });
-
 })();
