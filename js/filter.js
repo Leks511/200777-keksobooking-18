@@ -108,11 +108,19 @@
   filterElements.forEach(function (element) {
     element.addEventListener('change', function () {
 
+      // Фильтруем массив и возвращаем его
       var filteredAdvertisements = filters.reduce(function (result, filter, index) {
-        window.removePins();
         return filter(result, filterElements[index].value, filterElements[index]);
       }, window.advertisements);
-      window.render(filteredAdvertisements);
+
+      // После сортировки очистим карту от старых пинов для рендеринга новых, а также от popup'а для рендеринга нового
+      window.removePins();
+      window.removePopup();
+
+      // Перед тем, как отправить массив объявлений на сортировку, проверим на наличие в нём элементов. Т.к. если при сортировке нужных нам вариантов не окажется, нет смысла передавать пустой массив на рендеринг
+      if (filteredAdvertisements.length > 0) {
+        window.render(filteredAdvertisements);
+      }
     });
   });
 })();
