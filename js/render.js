@@ -25,10 +25,10 @@
 
     for (var i = 0; i < takeNumber; i++) {
       pinsFragment.appendChild(createPinElement(data[i]));
+      popupFragment.appendChild(window.createPopup(data[i]));
     }
 
-    // Отобразим popup на основе данных первого объявления полученных на рендеринг объявлений
-    popupFragment.appendChild(window.createPopup(data[0]));
+    // Выведем в DOM popup'ы на основе данных полученных на рендеринг
 
     mapPinsListElement.appendChild(pinsFragment);
     mainElement.insertBefore(popupFragment, filterBlock);
