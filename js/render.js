@@ -6,17 +6,6 @@
   var pinTemplateElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinsListElement = document.querySelector('.map__pins');
 
-  // Функция, удаляющая неглавные пины
-  window.removePins = function () {
-    var mapPinsList = document.querySelectorAll('.map__pin');
-
-    mapPinsList.forEach(function (pin) {
-      if (!(pin.classList.contains('map__pin--main'))) {
-        pin.remove();
-      }
-    });
-  };
-
   // Функция, создающая пин на карте
   function createPinElement(advertise) {
     var pin = pinTemplateElement.cloneNode(true);
@@ -28,6 +17,7 @@
     return pin;
   }
 
+  // Функция, наполняющая пинами карту
   window.render = function (data) {
     var pinsFragment = new DocumentFragment();
     var popupFragment = new DocumentFragment();
@@ -37,10 +27,9 @@
       pinsFragment.appendChild(createPinElement(data[i]));
     }
 
-    if (data[0]) {
-      popupFragment.appendChild(window.createPopup(data[0]));
-    }
-    
+    // Отобразим popup на основе данных первого объявления полученных на рендеринг объявлений
+    popupFragment.appendChild(window.createPopup(data[0]));
+
     mapPinsListElement.appendChild(pinsFragment);
     mainElement.insertBefore(popupFragment, filterBlock);
   };

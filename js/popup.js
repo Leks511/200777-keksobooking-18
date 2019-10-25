@@ -2,6 +2,7 @@
 
 (function () {
   var popupTemplateElement = document.querySelector('#card').content.querySelector('.popup');
+  var imgExampleElement = popupTemplateElement.querySelector('.popup__photos img');
 
   function getHousingType(housingType) {
     if (housingType === 'flat') {
@@ -15,8 +16,29 @@
     }
   }
 
+  function createImgElement(address) {
+    var imgElement = imgExampleElement.cloneNode(true);
+    imgElement.setAttribute('src', address);
+    return imgElement;
+  }
+
+  function setImages(listElement, photosList) {
+    var fragmentForPhotos = new DocumentFragment();
+    listElement.innerHTML = '';
+
+    // Наполняем фрагмент изображениями
+    photosList.forEach(function (srcAddress) {
+      fragmentForPhotos.appendChild(createImgElement(srcAddress));
+    });
+
+    listElement.appendChild(fragmentForPhotos);
+  }
+
   window.createPopup = function (advertise) {
     var popup = popupTemplateElement.cloneNode(true);
+    var popupPhotosElement = popup.querySelector('.popup__photos');
+
+    // Наполняем карточку объявления информацией с объекта объявления
 
     popup.querySelector('.popup__title').textContent = advertise.offer.title;
 
@@ -34,7 +56,7 @@
 
     popup.querySelector('.popup__description').textContent = advertise.offer.description;
 
-    // Сделать массив изображений
+    setImages(popupPhotosElement, advertise.offer.photos);
 
     popup.querySelector('.popup__avatar').setAttribute('src', advertise.author.avatar);
 
