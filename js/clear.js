@@ -1,12 +1,14 @@
 'use strict';
 
-(function() {
-  window.clear = function (elementSelector) {
-    var elements = document.querySelectorAll(elementSelector);
-    if (elements) {
-      elements.forEach(function (element) {
+(function () {
+  var renderedResults = document.querySelectorAll('.map__pin--added, .popup');
+
+  console.log(renderedResults);
+  window.clear = function () {
+    if (renderedResults) {
+      renderedResults.forEach(function (element) {
         element.remove();
-      })
+      });
     }
   }
 })();
