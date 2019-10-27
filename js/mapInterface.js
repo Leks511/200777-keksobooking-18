@@ -31,7 +31,7 @@
       hidePopups();
       element.style.display = 'block';
 
-      closePopupBtn = document.querySelector('.popup__close');
+      closePopupBtn = element.querySelector('.popup__close');
 
       closePopupBtn.addEventListener('click', hidePopups);
       document.addEventListener('keydown', onPopupESCPress);
