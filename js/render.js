@@ -19,18 +19,23 @@
 
   // Функция, наполняющая пинами карту
   window.render = function (data) {
-    var pinsFragment = new DocumentFragment();
-    var popupFragment = new DocumentFragment();
-    var takeNumber = data.length > 5 ? 5 : data.length;
 
-    for (var i = 0; i < takeNumber; i++) {
-      pinsFragment.appendChild(createPinElement(data[i]));
-      popupFragment.appendChild(window.createPopup(data[i]));
+    // Если в переданных данных что-то лежит, то отправим это на рендеринг
+    if (data) {
+      var pinsFragment = new DocumentFragment();
+      var popupFragment = new DocumentFragment();
+      var takeNumber = data.length > 5 ? 5 : data.length;
+
+      for (var i = 0; i < takeNumber; i++) {
+        pinsFragment.appendChild(createPinElement(data[i]));
+        popupFragment.appendChild(window.createPopup(data[i]));
+      }
+
+      // Выведем в DOM popup'ы на основе данных полученных на рендеринг
+
+      mapPinsListElement.appendChild(pinsFragment);
+      mainElement.insertBefore(popupFragment, filterBlock);
+      window.setMapInterface();
     }
-
-    // Выведем в DOM popup'ы на основе данных полученных на рендеринг
-
-    mapPinsListElement.appendChild(pinsFragment);
-    mainElement.insertBefore(popupFragment, filterBlock);
   };
 })();

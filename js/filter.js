@@ -64,7 +64,6 @@
     return filteredList;
   }
 
-
   // Функция, фильтрующая по селектам (#housing-*)
   function checkFilter(list, index) {
     var handleValue = function () {};
@@ -125,10 +124,9 @@
       // Фильтруем массив и возвращаем его
       var filteredResult = filterAdvertisements();
 
-      // Перед тем, как отправить массив объявлений на сортировку, проверим на наличие в нём элементов. Т.к. если при сортировке нужных нам вариантов не окажется, нет смысла передавать пустой массив на рендеринг
-      if (filteredResult.length > 0) {
-        window.render(filteredResult);
-      }
+      // Отдадим фильтрованный массив данных на отображение
+      window.render(filteredResult);
+
     });
   });
 })();
