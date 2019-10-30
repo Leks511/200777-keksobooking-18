@@ -35,7 +35,7 @@
   });
 
   mainMapPinElement.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+    if (evt.keyCode === window.code.ENTER) {
       getMainMapPinCoords(true);
     }
   });

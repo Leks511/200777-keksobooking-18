@@ -1,8 +1,42 @@
 'use strict';
 
 (function () {
+  var filterIndexes = {
+    TYPE: 0,
+    PRICE: 1,
+    ROOMS: 2,
+    GUESTS: 3
+  };
+
+  var housingFilters = document.querySelectorAll('select[id^="housing-"]');
+  var featureFilters = document.querySelectorAll('input[id ^= "filter-"]');
   var filterElements = document.querySelectorAll('select[id^="housing-"], input[id ^= "filter-"]');
+
   var filteredList;
+  var filters = [];
+
+  var transformingFunctions = {
+    // Функция, возвращающая переданное значение, если обработка значения не требуется
+    returnValue: function (val) {
+      return val;
+    },
+    // Функция, приводящая значение к строковому значению
+    transformToString: function (val) {
+      var newStr = val.toString();
+      return newStr;
+    },
+    // Функция приведения значения цены объявления к сравниваемому виду
+    getPriceLabel: function (price) {
+      if (price < 10000) {
+        price = 'low';
+      } else if (price >= 10000 && price <= 50000) {
+        price = 'middle';
+      } else {
+        price = 'high';
+      }
+      return price;
+    }
+  };
 
   // Если массив содержит элемент со значением, равным filterValue, то вернуть этот элемент для дальнейшего сравнения
   function getFeature(list, filterValue) {
@@ -18,109 +52,81 @@
   }
 
   // Функция, фильтрующая по чекбоксам (features)
-  function checkFeature(list, filterValue, checkbox) {
-    if (checkbox.checked) {
+  function checkFeature(list, index) {
+    if (filterElements[index].checked) {
       filteredList = list.filter(function (it) {
-      // Проверим: содержит ли массив features значение filterValue
-        return getFeature(it.offer.features, filterValue) === filterValue;
+        // Проверим: содержит ли массив features значение filterValue
+        return getFeature(it.offer.features, filterElements[index].value) === filterElements[index].value;
       });
-
     } else {
       filteredList = list;
     }
-
     return filteredList;
   }
 
-  // Функция приведения значения цены объявления к сравниваемому виду
-  function getPriceLabel(price) {
-    if (price < 10000) {
-      price = 'low';
-    } else if (price >= 10000 && price <= 50000) {
-      price = 'middle';
+  // Функция, фильтрующая по селектам (#housing-*)
+  function checkFilter(list, index) {
+    var handleValue = function () {};
+    var selectedValue;
+
+    if (filterElements[index].value !== 'any') {
+      filteredList = list.filter(function (it) {
+
+        if (index === filterIndexes.TYPE) {
+          handleValue = transformingFunctions.returnValue;
+          selectedValue = it.offer.type;
+        } else if (index === filterIndexes.PRICE) {
+          handleValue = transformingFunctions.getPriceLabel;
+          selectedValue = it.offer.price;
+        } else if (index === filterIndexes.ROOMS) {
+          handleValue = transformingFunctions.transformToString;
+          selectedValue = it.offer.rooms;
+        } else if (index === filterIndexes.GUESTS) {
+          handleValue = transformingFunctions.transformToString;
+          selectedValue = it.offer.guests;
+        }
+
+        return handleValue(selectedValue) === filterElements[index].value;
+      });
     } else {
-      price = 'high';
+      filteredList = list;
     }
-    return price;
+    return filteredList;
   }
 
-  // Массив функций с параметрами для фильтрации входного массива по селектам
-  var filters = [
-    function (list, filterValue) {
-      // Фильтрация по типу
-
-      if (filterValue !== 'any') {
-        filteredList = list.filter(function (it) {
-          return it.offer.type === filterValue;
-        });
-      } else {
-        filteredList = list;
-      }
-
-      return filteredList;
-    },
-    function (list, filterValue) {
-      // Фильтрация по цене
-
-      if (filterValue !== 'any') {
-        filteredList = list.filter(function (it) {
-          return getPriceLabel(it.offer.price) === filterValue;
-        });
-      } else {
-        filteredList = list;
-      }
-
-      return filteredList;
-    },
-    function (list, filterValue) {
-      // Фильтрация по количеству комнат
-
-      if (filterValue !== 'any') {
-        filteredList = list.filter(function (it) {
-          return it.offer.rooms === parseInt(filterValue, 10);
-        });
-      } else {
-        filteredList = list;
-      }
-
-      return filteredList;
-    },
-    function (list, filterValue) {
-      // Фильтрация по количеству гостей
-
-      if (filterValue !== 'any') {
-        filteredList = list.filter(function (it) {
-          return it.offer.guests === parseInt(filterValue, 10);
-        });
-      } else {
-        filteredList = list;
-      }
-
-      return filteredList;
+  // Функция заполнения массива фильтрующими функциями
+  function fillFilteringFunctionList(filteringElements, handler) {
+    for (var i = 0; i < filteringElements.length; i++) {
+      filters.push(handler);
     }
-  ];
-
-  // Добавим в массив функций-фильтров другие однотипные функции-фильтры для чекбоксов по их числу
-  for (var i = 0; i < document.querySelectorAll('input[id ^= "filter-"]').length; i++) {
-    filters.push(checkFeature);
   }
 
+  // Функция, запускающая фильтр массива объявлений
+  function filterAdvertisements() {
+    var filteredAdvertisements = filters.reduce(function (result, filter, index) {
+      return filter(result, index);
+    }, window.advertisements);
+
+    return filteredAdvertisements;
+  }
+
+  // Заполним массив фильтрующими функциями
+  fillFilteringFunctionList(housingFilters, checkFilter);
+  fillFilteringFunctionList(featureFilters, checkFeature);
+
+  // При изменении значений фильтров очистим карту от результатов предыдущего фильтрования, отсортируем массив объявлений и отобразим новый результат, если таковой имеется
   filterElements.forEach(function (element) {
     element.addEventListener('change', function () {
+      // Очистим карту от старых пинов для рендеринга новых, а также от popup'а для рендеринга нового
+      window.clear('.map__pin--added');
+      window.clear('.map__card');
 
       // Фильтруем массив и возвращаем его
-      var filteredAdvertisements = filters.reduce(function (result, filter, index) {
-        return filter(result, filterElements[index].value, filterElements[index]);
-      }, window.advertisements);
+      var filteredResult = filterAdvertisements();
 
-      // После сортировки очистим карту от старых пинов для рендеринга новых, а также от popup'а для рендеринга нового
-      window.removePins();
-      window.removePopup();
+      // Отдадим фильтрованный массив данных на отображение
+      window.render(filteredResult);
 
-      // Перед тем, как отправить массив объявлений на сортировку, проверим на наличие в нём элементов. Т.к. если при сортировке нужных нам вариантов не окажется, нет смысла передавать пустой массив на рендеринг
-      if (filteredAdvertisements.length > 0) {
-        window.render(filteredAdvertisements);
-      }
     });
   });
 })();
