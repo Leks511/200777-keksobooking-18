@@ -1,7 +1,5 @@
 'use strict';
 
-// ОСТАЛОСЬ ДОПИСАТЬ ВАЛИДАЦИЮ КОЛИЧЕСТВА КОМНАТ И КОЛИЧЕСТВА МЕСТ ПРИ ОТПРАВКЕ!!!!
-
 (function () {
   var minPrices = {
     BUNGALO: 0,
@@ -12,7 +10,9 @@
 
   var adFormElement = document.querySelector('.ad-form');
   var roomsElement = adFormElement.querySelector('#room_number');
-  var guests = adFormElement.querySelectorAll('#capacity option');
+
+  var guestsSelectElement = adFormElement.querySelector('#capacity');
+  var guestsOptionElements = adFormElement.querySelectorAll('#capacity option');
 
   var typeElement = adFormElement.querySelector('#type');
   var priceElement = adFormElement.querySelector('#price');
@@ -20,42 +20,47 @@
   var timeinElement = adFormElement.querySelector('#timein');
   var timeoutElement = adFormElement.querySelector('#timeout');
 
-  // Функция, добавляющая disabled недоступному полю
-  function setDisable(element) {
-    element.setAttribute('disabled', 'disabled');
+
+  var roomsQuantity = parseInt(roomsElement.value, 10);
+
+  // Функция, задающая аналогичное значение элементу въезда/выезда
+  function equalizeTimeValue(element1, element2) {
+    element2.value = element1.value;
   }
 
   // Функция обработки изменений полей гостей и комнат
   function handleRoomsGeustsChecking(rooms) {
-    // Уберём disabled у всех элементов для того, чтобы после добавить в соответствии с изменённым значением
-    guests.forEach(function (option) {
-      option.removeAttribute('disabled');
+    // В селект с гостями добавим изначальный набор для дальнейшей сортировки, перед этим очистив от результатов прошлой
+    guestsSelectElement.innerHTML = '';
+    guestsOptionElements.forEach(function (it) {
+      guestsSelectElement.appendChild(it);
     });
 
-    if (rooms === 100) {
-      for (var i = 0; i < guests.length; i++) {
-        if (parseInt(guests[i].value, 10) > 0) {
-          setDisable(guests[i]);
+    // Найдём вновь добавленные элементы внутри селекта и начнём их обрабатывать
+    var addedGuestsOptionElements = guestsSelectElement.querySelectorAll('option');
+
+    if (parseInt(rooms, 10) === 100) {
+      for (var i = 0; i < addedGuestsOptionElements.length; i++) {
+        if (parseInt(addedGuestsOptionElements[i].value, 10) > 0) {
+          addedGuestsOptionElements[i].remove();
         }
       }
     } else {
-      setDisable(guests[guests.length - 1]);
+      addedGuestsOptionElements[addedGuestsOptionElements.length - 1].remove();
 
-      for (var j = 0; j < guests.length; j++) {
-        if (parseInt(guests[j].value, 10) > rooms) {
-          setDisable(guests[j]);
+      for (var j = 0; j < addedGuestsOptionElements.length; j++) {
+        if (parseInt(addedGuestsOptionElements[j].value, 10) > rooms) {
+          addedGuestsOptionElements[j].remove();
         }
       }
     }
   }
 
   // Обработка гостей и комнат по изменению значения
-  roomsElement.addEventListener('change', function () {
+  roomsElement.addEventListener('change', function (evt) {
     roomsElement.setCustomValidity('');
 
-    var roomsQuantity = parseInt(roomsElement.value, 10);
-
-    handleRoomsGeustsChecking(roomsQuantity);
+    handleRoomsGeustsChecking(evt.target.value);
   });
 
   // При изменении поля "Тип" задаётся соответствующее минимальное значение для поля "Цена за ночь"
@@ -77,11 +82,6 @@
     }
   });
 
-  // Функция, задающая аналогичное значение элементу въезда/выезда
-  function equalizeTimeValue(element1, element2) {
-    element2.value = element1.value;
-  }
-
   // Синхронизуем поля даты въезда/выезда
   timeinElement.addEventListener('change', function () {
     equalizeTimeValue(timeinElement, timeoutElement);
@@ -90,4 +90,6 @@
     equalizeTimeValue(timeoutElement, timeinElement);
   });
 
+  // Вызовем проверку сразу
+  handleRoomsGeustsChecking(roomsQuantity);
 })();
