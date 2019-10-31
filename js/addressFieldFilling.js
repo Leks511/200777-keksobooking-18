@@ -9,37 +9,41 @@
   var mainMapPinElement = document.querySelector('.map__pin--main');
   var addressInput = document.querySelector('#address');
 
+  function getAngleCoods() {
+    return {
+      x: mainMapPinElement.offsetLeft - MAIN_PIN_WIDTH / 2,
+      y: mainMapPinElement.offsetTop + MAIN_PIN_HEIGHT - MAIN_PIN_IMG_BORDER_WIDTH + MAIN_PIN_PSEUDO_AFTER_HEIGHT
+    };
+  }
+
   // Функция получения координат
   // Если isActive === false, то берём координаты середины главного пина
   // Если isActive === true, то берём координаты острого нижнего
   // Изначально - false, т.к. интерфейс выключен. По включению - true
-  function getMainMapPinCoords(isActive) {
-    var mapPinOffsetTop = parseInt(mainMapPinElement.style.top, 10);
-    var mapPinOffsetLeft = parseInt(mainMapPinElement.style.left, 10);
-
-    var mapPinX = Math.round(mapPinOffsetLeft - MAIN_PIN_WIDTH / 2);
-    var mapPinY = Math.round(mapPinOffsetTop + MAIN_PIN_HEIGHT / 2);
+  window.fillAddress = function (isActive) {
+    var mainPinCoords = {
+      x: mainMapPinElement.offsetLeft - MAIN_PIN_WIDTH / 2,
+      y: mainMapPinElement.offsetTop + MAIN_PIN_HEIGHT / 2
+    };
 
     if (isActive) {
-      mapPinY = mapPinOffsetTop + MAIN_PIN_HEIGHT - MAIN_PIN_IMG_BORDER_WIDTH + MAIN_PIN_PSEUDO_AFTER_HEIGHT;
+      mainPinCoords = getAngleCoods();
     }
 
-    var mapPinCoordinate = mapPinX + ', ' + mapPinY;
-
-    addressInput.value = mapPinCoordinate;
-  }
+    addressInput.value = mainPinCoords.x + ', ' + mainPinCoords.y;
+  };
 
   // Запуски функций получения координат по нажатию на главный пин
   mainMapPinElement.addEventListener('mousedown', function () {
-    getMainMapPinCoords(true);
+    window.fillAddress(true);
   });
 
   mainMapPinElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.code.ENTER) {
-      getMainMapPinCoords(true);
+      window.fillAddress(true);
     }
   });
 
   // Изначально найдём координаты главного пина при isActive === false
-  getMainMapPinCoords(false);
+  window.fillAddress(false);
 })();
