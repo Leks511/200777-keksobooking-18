@@ -92,4 +92,11 @@
 
   // Вызовем проверку сразу
   handleRoomsGeustsChecking(roomsQuantity);
+
+  adFormElement.addEventListener('submit', function (evt) {
+    window.upload(new FormData(form), function (response) {
+
+    });
+    evt.preventDefault();
+  });
 })();
