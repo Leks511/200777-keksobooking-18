@@ -2,27 +2,27 @@
 
 (function () {
   var mapElement = document.querySelector('.map');
-  var mainMapPinElement = document.querySelector('.map__pin--main');
+  var mainPinElement = document.querySelector('.map__pin--main');
 
   var defaultCoords = {
-    x: mainMapPinElement.offsetLeft,
-    y: mainMapPinElement.offsetTop
+    x: mainPinElement.offsetLeft,
+    y: mainPinElement.offsetTop
   };
 
   // Функция, устанавливающая дефолтное значение координат для метки
   window.setDefaultCoords = function () {
-    mainMapPinElement.style.left = defaultCoords.x + 'px';
-    mainMapPinElement.style.top = defaultCoords.y + 'px';
+    mainPinElement.style.left = defaultCoords.x + 'px';
+    mainPinElement.style.top = defaultCoords.y + 'px';
   };
 
   var limits = {
     top: 130,
-    right: mapElement.offsetWidth - mainMapPinElement.offsetWidth / 2,
+    right: mapElement.offsetWidth - mainPinElement.offsetWidth / 2,
     bottom: 630,
-    left: 0 - mainMapPinElement.offsetWidth / 2
+    left: 0 - mainPinElement.offsetWidth / 2
   };
 
-  mainMapPinElement.addEventListener('mousedown', function (evt) {
+  window.setDragAndDrop = function (evt) {
     evt.preventDefault();
 
     var startCoords = {
@@ -44,20 +44,20 @@
 
 
       // Если метка уходит за координату, то не пускать её туда.
-      if (parseInt(mainMapPinElement.style.left, 10) > limits.right) {
-        mainMapPinElement.style.left = limits.right + 'px';
-      } else if (parseInt(mainMapPinElement.style.left, 10) < limits.left) {
-        mainMapPinElement.style.left = limits.left + 'px';
+      if (parseInt(mainPinElement.style.left, 10) > limits.right) {
+        mainPinElement.style.left = limits.right + 'px';
+      } else if (parseInt(mainPinElement.style.left, 10) < limits.left) {
+        mainPinElement.style.left = limits.left + 'px';
       } else {
-        mainMapPinElement.style.left = (mainMapPinElement.offsetLeft - shift.x) + 'px';
+        mainPinElement.style.left = (mainPinElement.offsetLeft - shift.x) + 'px';
       }
 
-      if (parseInt(mainMapPinElement.style.top, 10) < limits.top) {
-        mainMapPinElement.style.top = limits.top + 'px';
-      } else if (parseInt(mainMapPinElement.style.top, 10) > limits.bottom) {
-        mainMapPinElement.style.top = limits.bottom + 'px';
+      if (parseInt(mainPinElement.style.top, 10) < limits.top) {
+        mainPinElement.style.top = limits.top + 'px';
+      } else if (parseInt(mainPinElement.style.top, 10) > limits.bottom) {
+        mainPinElement.style.top = limits.bottom + 'px';
       } else {
-        mainMapPinElement.style.top = (mainMapPinElement.offsetTop - shift.y) + 'px';
+        mainPinElement.style.top = (mainPinElement.offsetTop - shift.y) + 'px';
       }
 
       window.fillAddress(true);
@@ -70,5 +70,6 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  });
+  };
+
 })();
