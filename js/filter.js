@@ -118,8 +118,7 @@
   filterElements.forEach(function (element) {
     element.addEventListener('change', function () {
       // Очистим карту от старых пинов для рендеринга новых, а также от popup'а для рендеринга нового
-      window.clear('.map__pin--added');
-      window.clear('.map__card');
+      window.clear();
 
       // Фильтруем массив и возвращаем его
       var filteredResult = filterAdvertisements();

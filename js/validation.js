@@ -9,19 +9,19 @@
   };
 
   var adFormElement = document.querySelector('.ad-form');
-  var roomsElement = adFormElement.querySelector('#room_number');
 
-  var guestsSelectElement = adFormElement.querySelector('#capacity');
-  var guestsOptionElements = adFormElement.querySelectorAll('#capacity option');
+  var formElements = {
+    title: adFormElement.querySelector('#title'),
+    rooms: adFormElement.querySelector('#room_number'),
+    guestsSelect: adFormElement.querySelector('#capacity'),
+    guestsOptions: adFormElement.querySelectorAll('#capacity option'),
+    type: adFormElement.querySelector('#type'),
+    price: adFormElement.querySelector('#price'),
+    timein: adFormElement.querySelector('#timein'),
+    timeout: adFormElement.querySelector('#timeout')
+  };
 
-  var typeElement = adFormElement.querySelector('#type');
-  var priceElement = adFormElement.querySelector('#price');
-
-  var timeinElement = adFormElement.querySelector('#timein');
-  var timeoutElement = adFormElement.querySelector('#timeout');
-
-
-  var roomsQuantity = parseInt(roomsElement.value, 10);
+  var roomsQuantity = parseInt(formElements.rooms.value, 10);
 
   // Функция, задающая аналогичное значение элементу въезда/выезда
   function equalizeTimeValue(element1, element2) {
@@ -31,13 +31,13 @@
   // Функция обработки изменений полей гостей и комнат
   function handleRoomsGeustsChecking(rooms) {
     // В селект с гостями добавим изначальный набор для дальнейшей сортировки, перед этим очистив от результатов прошлой
-    guestsSelectElement.innerHTML = '';
-    guestsOptionElements.forEach(function (it) {
-      guestsSelectElement.appendChild(it);
+    formElements.guestsSelect.innerHTML = '';
+    formElements.guestsOptions.forEach(function (it) {
+      formElements.guestsSelect.appendChild(it);
     });
 
     // Найдём вновь добавленные элементы внутри селекта и начнём их обрабатывать
-    var addedGuestsOptionElements = guestsSelectElement.querySelectorAll('option');
+    var addedGuestsOptionElements = formElements.guestsSelect.querySelectorAll('option');
 
     if (parseInt(rooms, 10) === 100) {
       for (var i = 0; i < addedGuestsOptionElements.length; i++) {
@@ -57,46 +57,43 @@
   }
 
   // Обработка гостей и комнат по изменению значения
-  roomsElement.addEventListener('change', function (evt) {
-    roomsElement.setCustomValidity('');
-
+  formElements.rooms.addEventListener('change', function (evt) {
     handleRoomsGeustsChecking(evt.target.value);
   });
 
   // При изменении поля "Тип" задаётся соответствующее минимальное значение для поля "Цена за ночь"
-  typeElement.addEventListener('change', function () {
-    if (typeElement.value === 'bungalo') {
-      priceElement.setAttribute('min', minPrices.BUNGALO);
+  formElements.type.addEventListener('change', function () {
+    if (formElements.type.value === 'bungalo') {
+      formElements.price.setAttribute('min', minPrices.BUNGALO);
     }
 
-    if (typeElement.value === 'flat') {
-      priceElement.setAttribute('min', minPrices.FLAT);
+    if (formElements.type.value === 'flat') {
+      formElements.price.setAttribute('min', minPrices.FLAT);
     }
 
-    if (typeElement.value === 'house') {
-      priceElement.setAttribute('min', minPrices.HOUSE);
+    if (formElements.type.value === 'house') {
+      formElements.price.setAttribute('min', minPrices.HOUSE);
     }
 
-    if (typeElement.value === 'palace') {
-      priceElement.setAttribute('min', minPrices.PALACE);
+    if (formElements.type.value === 'palace') {
+      formElements.price.setAttribute('min', minPrices.PALACE);
     }
   });
 
   // Синхронизуем поля даты въезда/выезда
-  timeinElement.addEventListener('change', function () {
-    equalizeTimeValue(timeinElement, timeoutElement);
+  formElements.timein.addEventListener('change', function () {
+    equalizeTimeValue(formElements.timein, formElements.timeout);
   });
-  timeoutElement.addEventListener('change', function () {
-    equalizeTimeValue(timeoutElement, timeinElement);
+  formElements.timeout.addEventListener('change', function () {
+    equalizeTimeValue(formElements.timeout, formElements.timein);
   });
 
   // Вызовем проверку сразу
   handleRoomsGeustsChecking(roomsQuantity);
 
   adFormElement.addEventListener('submit', function (evt) {
-    window.upload(new FormData(form), function (response) {
+    window.backend.upload(new FormData(adFormElement), window.regainSPA);
 
-    });
     evt.preventDefault();
   });
 })();

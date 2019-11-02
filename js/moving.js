@@ -4,6 +4,17 @@
   var mapElement = document.querySelector('.map');
   var mainMapPinElement = document.querySelector('.map__pin--main');
 
+  var defaultCoords = {
+    x: mainMapPinElement.offsetLeft,
+    y: mainMapPinElement.offsetTop
+  };
+
+  // Функция, устанавливающая дефолтное значение координат для метки
+  window.setDefaultCoords = function () {
+    mainMapPinElement.style.left = defaultCoords.x + 'px';
+    mainMapPinElement.style.top = defaultCoords.y + 'px';
+  };
+
   var limits = {
     top: 130,
     right: mapElement.offsetWidth - mainMapPinElement.offsetWidth / 2,
