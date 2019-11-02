@@ -92,7 +92,7 @@
   handleRoomsGeustsChecking(roomsQuantity);
 
   adFormElement.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(adFormElement), window.regainSPA);
+    window.backend.upload(new FormData(adFormElement), window.regainSPA, window.showError);
 
     evt.preventDefault();
   });

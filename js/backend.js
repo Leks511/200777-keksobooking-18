@@ -36,22 +36,15 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        onSuccess(xhr.response);
+        if (xhr.status === 200) {
+          onSuccess(xhr.response);
+        } else {
+          onError(xhr.status, xhr.statusText);
+        }
       });
 
       xhr.open('POST', window.URL.TO_POST);
       xhr.send(data);
-    },
-    onErrorFormSubmit: function (errorMessage) {
-      var node = document.createElement('div');
-      node.style = 'z-index: 100; width:300px; height:auto; margin-left: -150px; text-align: center; background-color: red;';
-      node.style.position = 'absolute';
-      node.style.left = '50%';
-      node.style.top = '300px';
-      node.style.fontSize = '30px';
-
-      node.textContent = errorMessage;
-      document.body.insertAdjacentElement('afterbegin', node);
     }
   };
 })();
