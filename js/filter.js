@@ -8,8 +8,8 @@
     GUESTS: 3
   };
 
-  var housingFilters = document.querySelectorAll('select[id^="housing-"]');
-  var featureFilters = document.querySelectorAll('input[id ^= "filter-"]');
+  var housingFilterElements = document.querySelectorAll('select[id^="housing-"]');
+  var featureFilterElements = document.querySelectorAll('input[id ^= "filter-"]');
   var filterElements = document.querySelectorAll('select[id^="housing-"], input[id ^= "filter-"]');
 
   var filteredList;
@@ -110,23 +110,27 @@
     return filteredAdvertisements;
   }
 
+  // Функция, показывающая новый отфильтрованный массив объявлений
+  function showResult() {
+    // Фильтруем массив и возвращаем его
+    var filteredResult = filterAdvertisements();
+    // Отдадим фильтрованный массив данных на отображение
+    window.render(filteredResult);
+  }
+
   // Заполним массив фильтрующими функциями
-  fillFilteringFunctionList(housingFilters, checkFilter);
-  fillFilteringFunctionList(featureFilters, checkFeature);
+  fillFilteringFunctionList(housingFilterElements, checkFilter);
+  fillFilteringFunctionList(featureFilterElements, checkFeature);
 
   // При изменении значений фильтров очистим карту от результатов предыдущего фильтрования, отсортируем массив объявлений и отобразим новый результат, если таковой имеется
   filterElements.forEach(function (element) {
     element.addEventListener('change', function () {
       // Очистим карту от старых пинов для рендеринга новых, а также от popup'а для рендеринга нового
-      window.clear('.map__pin--added');
-      window.clear('.map__card');
+      window.clear();
 
-      // Фильтруем массив и возвращаем его
-      var filteredResult = filterAdvertisements();
-
-      // Отдадим фильтрованный массив данных на отображение
-      window.render(filteredResult);
-
+      (window.debounce(function () {
+        showResult();
+      }))();
     });
   });
 })();
