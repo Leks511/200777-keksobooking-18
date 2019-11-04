@@ -38,17 +38,6 @@
     }
   };
 
-  // Функция, приводящая фильтры в дефолтное состояние
-  window.setDeafultFilterValues = function () {
-    filterElements.forEach(function (it) {
-      if (it.tagName.toLowerCase() === 'select') {
-        it.value = 'any';
-      } else {
-        it.checked = false;
-      }
-    });
-  };
-
   // Если массив содержит элемент со значением, равным filterValue, то вернуть этот элемент для дальнейшего сравнения
   function getFeature(list, filterValue) {
     var result = list.filter(function (it) {

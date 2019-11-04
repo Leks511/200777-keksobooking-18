@@ -23,6 +23,11 @@
 
   var roomsQuantity = parseInt(formElements.rooms.value, 10);
 
+  function handleSuccessSubmit() {
+    window.regainSPA();
+    window.showSuccessPopup();
+  }
+
   // Функция, задающая аналогичное значение элементу въезда/выезда
   function equalizeTimeValue(element1, element2) {
     element2.value = element1.value;
@@ -92,7 +97,7 @@
   handleRoomsGeustsChecking(roomsQuantity);
 
   adFormElement.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(adFormElement), window.regainSPA, window.showError);
+    window.backend.upload(new FormData(adFormElement), handleSuccessSubmit, window.showError);
 
     evt.preventDefault();
   });

@@ -30,27 +30,12 @@
   }
 
   // Функция показа сообщения об успешном отправлении формы
-  function showSuccessPopup() {
+  window.showSuccessPopup = function () {
     mapElement.appendChild(successPopupElement);
 
     successMessageTextElement = document.querySelector('.success__message');
 
     document.addEventListener('click', onSuccessPopupClick);
     document.addEventListener('keydown', onSuccessPopupKeyPress);
-  }
-
-  // Функция приведения SPA в изначальное состояние
-  window.regainSPA = function () {
-    adFormElements.forEach(function (it) {
-      it.value = '';
-    });
-    window.clear();
-    window.setDeafultFilterValues();
-    window.disableInterface();
-    window.setDefaultCoords();
-    window.fillAddress(false);
-    mainPinElement.removeEventListener('mousedown', window.setDranAndDrop);
-
-    showSuccessPopup();
   };
 })();
