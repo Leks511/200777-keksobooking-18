@@ -45,6 +45,7 @@
       it.value = '';
     });
     window.clear();
+    window.setDeafultFilterValues();
     window.disableInterface();
     window.setDefaultCoords();
     window.fillAddress(false);

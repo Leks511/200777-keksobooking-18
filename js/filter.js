@@ -9,8 +9,8 @@
   };
 
   var housingFilterElements = document.querySelectorAll('select[id^="housing-"]');
-  var featureFilterElements = document.querySelectorAll('input[id ^= "filter-"]');
-  var filterElements = document.querySelectorAll('select[id^="housing-"], input[id ^= "filter-"]');
+  var featureFilterElements = document.querySelectorAll('input[id^="filter-"]');
+  var filterElements = document.querySelectorAll('select[id^="housing-"], input[id^="filter-"]');
 
   var filteredList;
   var filters = [];
@@ -36,6 +36,17 @@
       }
       return price;
     }
+  };
+
+  // Функция, приводящая фильтры в дефолтное состояние
+  window.setDeafultFilterValues = function () {
+    filterElements.forEach(function (it) {
+      if (it.tagName.toLowerCase() === 'select') {
+        it.value = 'any';
+      } else {
+        it.checked = false;
+      }
+    });
   };
 
   // Если массив содержит элемент со значением, равным filterValue, то вернуть этот элемент для дальнейшего сравнения
