@@ -6,10 +6,25 @@
     var popups = document.querySelectorAll('.map__card');
     var closePopupBtn;
 
+    function disablePins() {
+      pins.forEach(function (it) {
+        it.classList.remove('map__pin--active');
+      });
+    }
+
+    function setActiveToPin(pin) {
+      pin.classList.add('map__pin--active');
+    }
+
+    function disableActiveAdvertisement() {
+      disablePins();
+      hidePopups();
+    }
+
     // При открытом popup закрыть его по нажатию на ESC
     function onPopupESCPress(evt) {
       if (evt.keyCode === window.code.ESC) {
-        hidePopups();
+        disableActiveAdvertisement();
       }
     }
 
@@ -33,20 +48,32 @@
 
       closePopupBtn = element.querySelector('.popup__close');
 
-      closePopupBtn.addEventListener('click', hidePopups);
+      closePopupBtn.addEventListener('click', disableActiveAdvertisement);
       document.addEventListener('keydown', onPopupESCPress);
+    }
+
+    function changeAdvertisement(pin, popup) {
+      disablePins();
+      setActiveToPin(pin);
+      showPopup(popup);
+    }
+
+    function onPinKeydownPress(evt, pin, popup) {
+      if (evt.keyCode === window.code.ENTER) {
+        disablePins();
+        setActiveToPin(pin);
+        showPopup(popup);
+      }
     }
 
     // По нажатию на пин откроем соответствующую карточку
     pins.forEach(function (pin, index) {
       pin.addEventListener('click', function () {
-        showPopup(popups[index]);
+        changeAdvertisement(pin, popups[index]);
       });
 
       pin.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.code.ENTER) {
-          showPopup(popups[index]);
-        }
+        onPinKeydownPress(evt, pin, popups[index]);
       });
     });
 

@@ -30,7 +30,7 @@
       mainPinCoords = getAngleCoods();
     }
 
-    addressInput.value = mainPinCoords.x + ', ' + mainPinCoords.y;
+    addressInput.value = Math.floor(mainPinCoords.x) + ', ' + Math.floor(mainPinCoords.y);
   };
 
   // Запуски функций получения координат по нажатию на главный пин

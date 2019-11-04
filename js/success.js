@@ -2,9 +2,7 @@
 
 (function () {
   var mapElement = document.querySelector('.map');
-  var mainPinElement = document.querySelector('.map__pin--main');
   var successPopupElement = document.querySelector('#success').content.querySelector('.success');
-  var adFormElements = document.querySelectorAll('#title, #price');
 
   var successMessageTextElement;
 

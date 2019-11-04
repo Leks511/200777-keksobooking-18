@@ -27,8 +27,13 @@
       var takeNumber = data.length > 5 ? 5 : data.length;
 
       for (var i = 0; i < takeNumber; i++) {
-        pinsFragment.appendChild(createPinElement(data[i]));
-        popupFragment.appendChild(window.createPopup(data[i]));
+        // Если в объекте объявления есть поле offer, то отрендерим
+        if (data[i].offer) {
+          pinsFragment.appendChild(createPinElement(data[i]));
+          popupFragment.appendChild(window.createPopup(data[i]));
+        } else {
+          continue;
+        }
       }
 
       // Выведем в DOM popup'ы на основе данных полученных на рендеринг

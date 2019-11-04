@@ -4,6 +4,13 @@
   var mapElement = document.querySelector('.map');
   var mainPinElement = document.querySelector('.map__pin--main');
 
+  var limits = {
+    top: 130 - 80,
+    right: mapElement.offsetWidth - mainPinElement.offsetWidth / 2,
+    bottom: 630 - 82,
+    left: 0 - mainPinElement.offsetWidth / 2
+  };
+
   var defaultCoords = {
     x: mainPinElement.offsetLeft,
     y: mainPinElement.offsetTop
@@ -13,13 +20,6 @@
   window.setDefaultCoords = function () {
     mainPinElement.style.left = defaultCoords.x + 'px';
     mainPinElement.style.top = defaultCoords.y + 'px';
-  };
-
-  var limits = {
-    top: 130,
-    right: mapElement.offsetWidth - mainPinElement.offsetWidth / 2,
-    bottom: 630,
-    left: 0 - mainPinElement.offsetWidth / 2
   };
 
   window.setDragAndDrop = function (evt) {

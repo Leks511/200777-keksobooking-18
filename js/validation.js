@@ -23,6 +23,32 @@
 
   var roomsQuantity = parseInt(formElements.rooms.value, 10);
 
+  // Функция, изменяющая атрибуты поля "Цена за ночь" в adForm
+  function changePriceElement(typeValue) {
+    formElements.price.setAttribute('min', typeValue);
+    formElements.price.setAttribute('placeholder', typeValue);
+  }
+
+  // Функция, проверяющая тип жилья в объявлении
+  window.checkTypeOfHousing = function () {
+    if (formElements.type.value === 'bungalo') {
+      changePriceElement(minPrices.BUNGALO);
+    }
+
+    if (formElements.type.value === 'flat') {
+      changePriceElement(minPrices.FLAT);
+    }
+
+    if (formElements.type.value === 'house') {
+      changePriceElement(minPrices.HOUSE);
+    }
+
+    if (formElements.type.value === 'palace') {
+      changePriceElement(minPrices.PALACE);
+    }
+  };
+
+  // Функция, выполняемая при успешной отправке формы
   function handleSuccessSubmit() {
     window.regainSPA();
     window.showSuccessPopup();
@@ -67,23 +93,7 @@
   });
 
   // При изменении поля "Тип" задаётся соответствующее минимальное значение для поля "Цена за ночь"
-  formElements.type.addEventListener('change', function () {
-    if (formElements.type.value === 'bungalo') {
-      formElements.price.setAttribute('min', minPrices.BUNGALO);
-    }
-
-    if (formElements.type.value === 'flat') {
-      formElements.price.setAttribute('min', minPrices.FLAT);
-    }
-
-    if (formElements.type.value === 'house') {
-      formElements.price.setAttribute('min', minPrices.HOUSE);
-    }
-
-    if (formElements.type.value === 'palace') {
-      formElements.price.setAttribute('min', minPrices.PALACE);
-    }
-  });
+  formElements.type.addEventListener('change', window.checkTypeOfHousing);
 
   // Синхронизуем поля даты въезда/выезда
   formElements.timein.addEventListener('change', function () {
@@ -93,12 +103,13 @@
     equalizeTimeValue(formElements.timeout, formElements.timein);
   });
 
-  // Вызовем проверку сразу
-  handleRoomsGeustsChecking(roomsQuantity);
-
   adFormElement.addEventListener('submit', function (evt) {
     window.backend.upload(new FormData(adFormElement), handleSuccessSubmit, window.showError);
 
     evt.preventDefault();
   });
+
+  // Вызовем проверку сразу
+  handleRoomsGeustsChecking(roomsQuantity);
+  window.checkTypeOfHousing();
 })();
