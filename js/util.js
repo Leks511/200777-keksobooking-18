@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  window.code = {
+  window.Codes = {
     ESC: 27,
     ENTER: 13
   };

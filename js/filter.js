@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var filterIndexes = {
+  var FilterIndexes = {
     TYPE: 0,
     PRICE: 1,
     ROOMS: 2,
@@ -9,8 +9,8 @@
   };
 
   var housingFilterElements = document.querySelectorAll('select[id^="housing-"]');
-  var featureFilterElements = document.querySelectorAll('input[id ^= "filter-"]');
-  var filterElements = document.querySelectorAll('select[id^="housing-"], input[id ^= "filter-"]');
+  var featureFilterElements = document.querySelectorAll('input[id^="filter-"]');
+  var filterElements = document.querySelectorAll('select[id^="housing-"], input[id^="filter-"]');
 
   var filteredList;
   var filters = [];
@@ -72,16 +72,16 @@
     if (filterElements[index].value !== 'any') {
       filteredList = list.filter(function (it) {
 
-        if (index === filterIndexes.TYPE) {
+        if (index === FilterIndexes.TYPE) {
           handleValue = transformingFunctions.returnValue;
           selectedValue = it.offer.type;
-        } else if (index === filterIndexes.PRICE) {
+        } else if (index === FilterIndexes.PRICE) {
           handleValue = transformingFunctions.getPriceLabel;
           selectedValue = it.offer.price;
-        } else if (index === filterIndexes.ROOMS) {
+        } else if (index === FilterIndexes.ROOMS) {
           handleValue = transformingFunctions.transformToString;
           selectedValue = it.offer.rooms;
-        } else if (index === filterIndexes.GUESTS) {
+        } else if (index === FilterIndexes.GUESTS) {
           handleValue = transformingFunctions.transformToString;
           selectedValue = it.offer.guests;
         }

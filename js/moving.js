@@ -4,10 +4,19 @@
   var mapElement = document.querySelector('.map');
   var mainPinElement = document.querySelector('.map__pin--main');
 
-  var defaultCoords = {
-    x: mainPinElement.offsetLeft,
-    y: mainPinElement.offsetTop
+  var limits = {
+    top: 130 - 80,
+    right: mapElement.offsetWidth - mainPinElement.offsetWidth / 2,
+    bottom: 630 - 82,
+    left: 0 - mainPinElement.offsetWidth / 2
   };
+
+  function Coordinate(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  var defaultCoords = new Coordinate(mainPinElement.offsetLeft, mainPinElement.offsetTop);
 
   // Функция, устанавливающая дефолтное значение координат для метки
   window.setDefaultCoords = function () {
@@ -15,33 +24,16 @@
     mainPinElement.style.top = defaultCoords.y + 'px';
   };
 
-  var limits = {
-    top: 130,
-    right: mapElement.offsetWidth - mainPinElement.offsetWidth / 2,
-    bottom: 630,
-    left: 0 - mainPinElement.offsetWidth / 2
-  };
-
   window.setDragAndDrop = function (evt) {
     evt.preventDefault();
 
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
+    var startCoords = new Coordinate(evt.clientX, evt.clientY);
 
     function onMouseMove(moveEvt) {
 
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
-      };
+      var shift = new Coordinate(startCoords.x - moveEvt.clientX, startCoords.y - moveEvt.clientY);
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
-
+      startCoords = new Coordinate(moveEvt.clientX, moveEvt.clientY);
 
       // Если метка уходит за координату, то не пускать её туда.
       if (parseInt(mainPinElement.style.left, 10) > limits.right) {

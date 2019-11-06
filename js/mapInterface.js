@@ -2,25 +2,40 @@
 
 (function () {
   window.setMapInterface = function () {
-    var pins = document.querySelectorAll('.map__pin--added');
-    var popups = document.querySelectorAll('.map__card');
-    var closePopupBtn;
+    var pinElements = document.querySelectorAll('.map__pin--added');
+    var popupElements = document.querySelectorAll('.map__card');
+    var closePopupButton;
+
+    function disablePins() {
+      pinElements.forEach(function (it) {
+        it.classList.remove('map__pin--active');
+      });
+    }
+
+    function setActiveToPin(pin) {
+      pin.classList.add('map__pin--active');
+    }
+
+    function disableActiveAdvertisement() {
+      disablePins();
+      hidePopups();
+    }
 
     // При открытом popup закрыть его по нажатию на ESC
     function onPopupESCPress(evt) {
-      if (evt.keyCode === window.code.ESC) {
-        hidePopups();
+      if (evt.keyCode === window.Codes.ESC) {
+        disableActiveAdvertisement();
       }
     }
 
     // Функция, скрывающая карточки
     function hidePopups() {
-      popups.forEach(function (popup) {
+      popupElements.forEach(function (popup) {
         popup.style.display = 'none';
       });
 
-      if (closePopupBtn) {
-        closePopupBtn.removeEventListener('click', hidePopups);
+      if (closePopupButton) {
+        closePopupButton.removeEventListener('click', hidePopups);
       }
 
       document.removeEventListener('keydown', onPopupESCPress);
@@ -31,22 +46,34 @@
       hidePopups();
       element.style.display = 'block';
 
-      closePopupBtn = element.querySelector('.popup__close');
+      closePopupButton = element.querySelector('.popup__close');
 
-      closePopupBtn.addEventListener('click', hidePopups);
+      closePopupButton.addEventListener('click', disableActiveAdvertisement);
       document.addEventListener('keydown', onPopupESCPress);
     }
 
+    function changeAdvertisement(pin, popup) {
+      disablePins();
+      setActiveToPin(pin);
+      showPopup(popup);
+    }
+
+    function onPinKeydownPress(evt, pin, popup) {
+      if (evt.keyCode === window.code.ENTER) {
+        disablePins();
+        setActiveToPin(pin);
+        showPopup(popup);
+      }
+    }
+
     // По нажатию на пин откроем соответствующую карточку
-    pins.forEach(function (pin, index) {
+    pinElements.forEach(function (pin, index) {
       pin.addEventListener('click', function () {
-        showPopup(popups[index]);
+        changeAdvertisement(pin, popupElements[index]);
       });
 
       pin.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.code.ENTER) {
-          showPopup(popups[index]);
-        }
+        onPinKeydownPress(evt, pin, popupElements[index]);
       });
     });
 

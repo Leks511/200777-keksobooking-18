@@ -2,7 +2,7 @@
 
 (function () {
 
-  window.URL = {
+  window.Urls = {
     TO_GET: 'https://js.dump.academy/keksobooking/data',
     TO_POST: 'https://js.dump.academy/keksobooking'
   };
@@ -28,7 +28,7 @@
 
       xhr.timeout = 10000;
 
-      xhr.open('GET', window.URL.TO_GET);
+      xhr.open('GET', window.Urls.TO_GET);
       xhr.send();
     },
     upload: function (data, onSuccess, onError) {
@@ -43,7 +43,7 @@
         }
       });
 
-      xhr.open('POST', window.URL.TO_POST);
+      xhr.open('POST', window.Urls.TO_POST);
       xhr.send(data);
     }
   };

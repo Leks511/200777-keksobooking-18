@@ -4,13 +4,13 @@
   var mapElement = document.querySelector('.map');
   var errorMessageElement = document.querySelector('#error').content.querySelector('.error');
 
-  var tryAgainButton;
+  var tryAgainButtonElement;
   var errorMessageTextElement;
 
   // Убрать обработчики событий для закрытия окна с ошибкой
   function removeOnErrorMessageListeners() {
-    tryAgainButton.removeEventListener('click', onTryAgainBtnClick);
-    tryAgainButton.removeEventListener('click', onTryAgainBtnEnterPress);
+    tryAgainButtonElement.removeEventListener('click', onTryAgainButtonClick);
+    tryAgainButtonElement.removeEventListener('click', onTryAgainButtonEnterPress);
     document.removeEventListener('keydown', onErrorPopupEscPress);
   }
 
@@ -27,20 +27,20 @@
   }
 
   function onErrorPopupEscPress(evt) {
-    if (evt.keyCode === window.code.ESC) {
+    if (evt.keyCode === window.Codes.ESC) {
       removeErrorMessage();
     }
   }
 
   // Функция, закрывающая окно с ошибкой
-  function onTryAgainBtnClick(evt) {
+  function onTryAgainButtonClick(evt) {
     evt.preventDefault();
     removeErrorMessage();
   }
 
   // Функция, закрывающая окно с ошибкой
-  function onTryAgainBtnEnterPress(evt) {
-    if (evt.keyCode === window.code.ENTER) {
+  function onTryAgainButtonEnterPress(evt) {
+    if (evt.keyCode === window.Codes.ENTER) {
       removeErrorMessage();
     }
   }
@@ -49,11 +49,11 @@
   window.showError = function () {
     mapElement.appendChild(errorMessageElement);
 
-    tryAgainButton = document.querySelector('.error__button');
+    tryAgainButtonElement = document.querySelector('.error__button');
     errorMessageTextElement = document.querySelector('.error__message');
 
-    tryAgainButton.addEventListener('click', onTryAgainBtnClick);
-    tryAgainButton.addEventListener('click', onTryAgainBtnEnterPress);
+    tryAgainButtonElement.addEventListener('click', onTryAgainButtonClick);
+    tryAgainButtonElement.addEventListener('click', onTryAgainButtonEnterPress);
     document.addEventListener('keydown', onErrorPopupEscPress);
     document.addEventListener('click', onErrorPopupClick);
   };
