@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var minPrices = {
+  var MinPrices = {
     BUNGALO: 0,
     FLAT: 1000,
     HOUSE: 5000,
@@ -10,7 +10,7 @@
 
   var adFormElement = document.querySelector('.ad-form');
 
-  var formElements = {
+  var FormElements = {
     title: adFormElement.querySelector('#title'),
     rooms: adFormElement.querySelector('#room_number'),
     guestsSelect: adFormElement.querySelector('#capacity'),
@@ -21,30 +21,30 @@
     timeout: adFormElement.querySelector('#timeout')
   };
 
-  var roomsQuantity = parseInt(formElements.rooms.value, 10);
+  var roomsQuantity = parseInt(FormElements.rooms.value, 10);
 
   // Функция, изменяющая атрибуты поля "Цена за ночь" в adForm
   function changePriceElement(typeValue) {
-    formElements.price.setAttribute('min', typeValue);
-    formElements.price.setAttribute('placeholder', typeValue);
+    FormElements.price.setAttribute('min', typeValue);
+    FormElements.price.setAttribute('placeholder', typeValue);
   }
 
   // Функция, проверяющая тип жилья в объявлении
   window.checkTypeOfHousing = function () {
-    if (formElements.type.value === 'bungalo') {
-      changePriceElement(minPrices.BUNGALO);
+    if (FormElements.type.value === 'bungalo') {
+      changePriceElement(MinPrices.BUNGALO);
     }
 
-    if (formElements.type.value === 'flat') {
-      changePriceElement(minPrices.FLAT);
+    if (FormElements.type.value === 'flat') {
+      changePriceElement(MinPrices.FLAT);
     }
 
-    if (formElements.type.value === 'house') {
-      changePriceElement(minPrices.HOUSE);
+    if (FormElements.type.value === 'house') {
+      changePriceElement(MinPrices.HOUSE);
     }
 
-    if (formElements.type.value === 'palace') {
-      changePriceElement(minPrices.PALACE);
+    if (FormElements.type.value === 'palace') {
+      changePriceElement(MinPrices.PALACE);
     }
   };
 
@@ -62,13 +62,13 @@
   // Функция обработки изменений полей гостей и комнат
   function handleRoomsGeustsChecking(rooms) {
     // В селект с гостями добавим изначальный набор для дальнейшей сортировки, перед этим очистив от результатов прошлой
-    formElements.guestsSelect.innerHTML = '';
-    formElements.guestsOptions.forEach(function (it) {
-      formElements.guestsSelect.appendChild(it);
+    FormElements.guestsSelect.innerHTML = '';
+    FormElements.guestsOptions.forEach(function (it) {
+      FormElements.guestsSelect.appendChild(it);
     });
 
     // Найдём вновь добавленные элементы внутри селекта и начнём их обрабатывать
-    var addedGuestsOptionElements = formElements.guestsSelect.querySelectorAll('option');
+    var addedGuestsOptionElements = FormElements.guestsSelect.querySelectorAll('option');
 
     if (parseInt(rooms, 10) === 100) {
       for (var i = 0; i < addedGuestsOptionElements.length; i++) {
@@ -88,19 +88,19 @@
   }
 
   // Обработка гостей и комнат по изменению значения
-  formElements.rooms.addEventListener('change', function (evt) {
+  FormElements.rooms.addEventListener('change', function (evt) {
     handleRoomsGeustsChecking(evt.target.value);
   });
 
   // При изменении поля "Тип" задаётся соответствующее минимальное значение для поля "Цена за ночь"
-  formElements.type.addEventListener('change', window.checkTypeOfHousing);
+  FormElements.type.addEventListener('change', window.checkTypeOfHousing);
 
   // Синхронизуем поля даты въезда/выезда
-  formElements.timein.addEventListener('change', function () {
-    equalizeTimeValue(formElements.timein, formElements.timeout);
+  FormElements.timein.addEventListener('change', function () {
+    equalizeTimeValue(FormElements.timein, FormElements.timeout);
   });
-  formElements.timeout.addEventListener('change', function () {
-    equalizeTimeValue(formElements.timeout, formElements.timein);
+  FormElements.timeout.addEventListener('change', function () {
+    equalizeTimeValue(FormElements.timeout, FormElements.timein);
   });
 
   adFormElement.addEventListener('submit', function (evt) {

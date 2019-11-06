@@ -16,7 +16,7 @@
 
   // Обработчик нажатия ESC при открытом сообщении об успехе отправления формы
   function onSuccessPopupKeyPress(evt) {
-    if (evt.keyCode === window.code.ESC) {
+    if (evt.keyCode === window.Codes.ESC) {
       removeSuccessPopup();
     }
   }

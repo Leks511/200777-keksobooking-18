@@ -2,12 +2,12 @@
 
 (function () {
   window.setMapInterface = function () {
-    var pins = document.querySelectorAll('.map__pin--added');
-    var popups = document.querySelectorAll('.map__card');
+    var pinElements = document.querySelectorAll('.map__pin--added');
+    var popupElements = document.querySelectorAll('.map__card');
     var closePopupButton;
 
     function disablePins() {
-      pins.forEach(function (it) {
+      pinElements.forEach(function (it) {
         it.classList.remove('map__pin--active');
       });
     }
@@ -23,14 +23,14 @@
 
     // При открытом popup закрыть его по нажатию на ESC
     function onPopupESCPress(evt) {
-      if (evt.keyCode === window.code.ESC) {
+      if (evt.keyCode === window.Codes.ESC) {
         disableActiveAdvertisement();
       }
     }
 
     // Функция, скрывающая карточки
     function hidePopups() {
-      popups.forEach(function (popup) {
+      popupElements.forEach(function (popup) {
         popup.style.display = 'none';
       });
 
@@ -67,13 +67,13 @@
     }
 
     // По нажатию на пин откроем соответствующую карточку
-    pins.forEach(function (pin, index) {
+    pinElements.forEach(function (pin, index) {
       pin.addEventListener('click', function () {
-        changeAdvertisement(pin, popups[index]);
+        changeAdvertisement(pin, popupElements[index]);
       });
 
       pin.addEventListener('keydown', function (evt) {
-        onPinKeydownPress(evt, pin, popups[index]);
+        onPinKeydownPress(evt, pin, popupElements[index]);
       });
     });
 

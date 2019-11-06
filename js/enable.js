@@ -49,7 +49,7 @@
 
   // Обработчик события на главном пине
   window.onMainPinElementEnterPress = function (evt) {
-    if (evt.keyCode === window.code.ENTER) {
+    if (evt.keyCode === window.Codes.ENTER) {
       window.enableInterface();
     }
   };

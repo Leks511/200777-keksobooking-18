@@ -2,7 +2,7 @@
 
 (function () {
   var mainElement = document.querySelector('.map');
-  var filterBlock = document.querySelector('.map__filters-container');
+  var filterBlockElement = document.querySelector('.map__filters-container');
   var pinTemplateElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPinsListElement = document.querySelector('.map__pins');
 
@@ -39,7 +39,7 @@
       // Выведем в DOM popup'ы на основе данных полученных на рендеринг
 
       mapPinsListElement.appendChild(pinsFragment);
-      mainElement.insertBefore(popupFragment, filterBlock);
+      mainElement.insertBefore(popupFragment, filterBlockElement);
       window.setMapInterface();
     }
   };
