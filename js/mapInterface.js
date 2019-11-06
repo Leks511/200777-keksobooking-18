@@ -4,7 +4,7 @@
   window.setMapInterface = function () {
     var pins = document.querySelectorAll('.map__pin--added');
     var popups = document.querySelectorAll('.map__card');
-    var closePopupBtn;
+    var closePopupButton;
 
     function disablePins() {
       pins.forEach(function (it) {
@@ -34,8 +34,8 @@
         popup.style.display = 'none';
       });
 
-      if (closePopupBtn) {
-        closePopupBtn.removeEventListener('click', hidePopups);
+      if (closePopupButton) {
+        closePopupButton.removeEventListener('click', hidePopups);
       }
 
       document.removeEventListener('keydown', onPopupESCPress);
@@ -46,9 +46,9 @@
       hidePopups();
       element.style.display = 'block';
 
-      closePopupBtn = element.querySelector('.popup__close');
+      closePopupButton = element.querySelector('.popup__close');
 
-      closePopupBtn.addEventListener('click', disableActiveAdvertisement);
+      closePopupButton.addEventListener('click', disableActiveAdvertisement);
       document.addEventListener('keydown', onPopupESCPress);
     }
 

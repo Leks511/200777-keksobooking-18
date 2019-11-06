@@ -9,8 +9,8 @@
 
   // Убрать обработчики событий для закрытия окна с ошибкой
   function removeOnErrorMessageListeners() {
-    tryAgainButton.removeEventListener('click', onTryAgainBtnClick);
-    tryAgainButton.removeEventListener('click', onTryAgainBtnEnterPress);
+    tryAgainButton.removeEventListener('click', onTryAgainButtonClick);
+    tryAgainButton.removeEventListener('click', onTryAgainButtonEnterPress);
     document.removeEventListener('keydown', onErrorPopupEscPress);
   }
 
@@ -33,13 +33,13 @@
   }
 
   // Функция, закрывающая окно с ошибкой
-  function onTryAgainBtnClick(evt) {
+  function onTryAgainButtonClick(evt) {
     evt.preventDefault();
     removeErrorMessage();
   }
 
   // Функция, закрывающая окно с ошибкой
-  function onTryAgainBtnEnterPress(evt) {
+  function onTryAgainButtonEnterPress(evt) {
     if (evt.keyCode === window.code.ENTER) {
       removeErrorMessage();
     }
@@ -52,8 +52,8 @@
     tryAgainButton = document.querySelector('.error__button');
     errorMessageTextElement = document.querySelector('.error__message');
 
-    tryAgainButton.addEventListener('click', onTryAgainBtnClick);
-    tryAgainButton.addEventListener('click', onTryAgainBtnEnterPress);
+    tryAgainButton.addEventListener('click', onTryAgainButtonClick);
+    tryAgainButton.addEventListener('click', onTryAgainButtonEnterPress);
     document.addEventListener('keydown', onErrorPopupEscPress);
     document.addEventListener('click', onErrorPopupClick);
   };
