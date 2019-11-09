@@ -24,9 +24,9 @@
     if (data) {
       var pinsFragment = new DocumentFragment();
       var popupFragment = new DocumentFragment();
-      var takeNumber = data.length > 5 ? 5 : data.length;
+      var quantityOfAdvertisementsOnMap = data.length > 5 ? 5 : data.length;
 
-      for (var i = 0; i < takeNumber; i++) {
+      for (var i = 0; i < quantityOfAdvertisementsOnMap; i++) {
         // Если в объекте объявления есть поле offer, то отрендерим
         if (data[i].offer) {
           pinsFragment.appendChild(createPinElement(data[i]));

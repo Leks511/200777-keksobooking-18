@@ -1,13 +1,12 @@
 'use strict';
 
 (function () {
-  var mainPinElement = document.querySelector('.map__pin--main');
   var resetButtonElement = document.querySelector('.ad-form__reset');
-  var toDefaultValueElements = document.querySelectorAll('select[id^="housing-"], input[id^="filter-"], #type,  #title, #price, #timein, #timeout, #description, .feature__checkbox');
+  var resetingElements = document.querySelectorAll('select[id^="housing-"], input[id^="filter-"], #type,  #title, #price, #timein, #timeout, #description, .feature__checkbox');
 
   // Функция, приводящая элементы в дефолтное состояние
   function setDeafultValues() {
-    toDefaultValueElements.forEach(function (it) {
+    resetingElements.forEach(function (it) {
       if (it.classList.contains('map__filter')) {
         it.value = 'any';
       } else if (it.type === 'checkbox') {
@@ -30,7 +29,6 @@
     window.disableInterface();
     window.setDefaultCoords();
     window.fillAddress(false);
-    mainPinElement.removeEventListener('mousedown', window.setDragAndDrop);
   };
 
   resetButtonElement.addEventListener('click', function (evt) {

@@ -11,9 +11,9 @@
       return 'Бунгало';
     } else if (housingType === 'house') {
       return 'Дом';
-    } else {
-      return 'Дворец';
     }
+
+    return 'Дворец';
   }
 
   function createImgElement(address) {
@@ -37,41 +37,56 @@
   function checkExsistance(data) {
     if (data) {
       return data;
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 
   function formatePrice(data) {
     if (data) {
       return data.toString() + '₽/ночь';
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 
   function formateCapacity(rooms, guests) {
     if (rooms && guests) {
       return rooms.toString() + ' комнаты для ' + guests.toString() + ' гостей';
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 
   function formateTime(checkin, checkout) {
     if (checkin && checkout) {
       return 'Заезд после ' + checkin.toString() + ', выезд до ' + checkout.toString();
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 
-  function formateFeatures(data) {
-    if (data) {
-      return data.join(', ');
-    } else {
-      return undefined;
+  // Нужно добавить соответствующую feature в соответствующий элемент с одноимённым по модификатору классом
+
+  function formateFeatures(features, featuresListElement) {
+    featuresListElement.innerHTML = '';
+
+    if (features.length) {
+      var featuresFragment = new DocumentFragment();
+      // Возьмём в текстовом формате каждое feature
+      features.forEach(function (it) {
+        var featureListItem = document.createElement('li');
+        featureListItem.classList.add('popup__feature', 'popup__feature--' + it);
+        featureListItem.textContent = it;
+        featuresFragment.appendChild(featureListItem);
+      });
+
+      featuresListElement.appendChild(featuresFragment);
+
+      return featuresListElement;
     }
+
+    return undefined;
   }
 
   window.createPopup = function (advertise) {
@@ -101,7 +116,7 @@
 
     popupOfferElements.time.textContent = formateTime(advertise.offer.checkin, advertise.offer.checkout);
 
-    popupOfferElements.features.textContent = formateFeatures(checkExsistance(advertise.offer.features));
+    formateFeatures(checkExsistance(advertise.offer.features), popupOfferElements.features);
 
     popupOfferElements.description.textContent = checkExsistance(advertise.offer.description);
 

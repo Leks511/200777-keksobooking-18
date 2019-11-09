@@ -8,6 +8,8 @@
     PALACE: 10000
   };
 
+  var BIG_QUANTITY_OF_GUESTS = 100;
+
   var adFormElement = document.querySelector('.ad-form');
 
   var FormElements = {
@@ -48,6 +50,11 @@
     }
   };
 
+  // Функция - обработчик изменения типа жилья
+  function onFormElementsTypeChange() {
+    window.checkTypeOfHousing();
+  }
+
   // Функция, выполняемая при успешной отправке формы
   function handleSuccessSubmit() {
     window.regainSPA();
@@ -70,20 +77,20 @@
     // Найдём вновь добавленные элементы внутри селекта и начнём их обрабатывать
     var addedGuestsOptionElements = FormElements.guestsSelect.querySelectorAll('option');
 
-    if (parseInt(rooms, 10) === 100) {
-      for (var i = 0; i < addedGuestsOptionElements.length; i++) {
-        if (parseInt(addedGuestsOptionElements[i].value, 10) > 0) {
-          addedGuestsOptionElements[i].remove();
+    if (parseInt(rooms, 10) === BIG_QUANTITY_OF_GUESTS) {
+      addedGuestsOptionElements.forEach(function (it) {
+        if (parseInt(it.value, 10) > 0) {
+          it.remove();
         }
-      }
+      });
     } else {
       addedGuestsOptionElements[addedGuestsOptionElements.length - 1].remove();
 
-      for (var j = 0; j < addedGuestsOptionElements.length; j++) {
-        if (parseInt(addedGuestsOptionElements[j].value, 10) > rooms) {
-          addedGuestsOptionElements[j].remove();
+      addedGuestsOptionElements.forEach(function (it) {
+        if (parseInt(it.value, 10) > rooms) {
+          it.remove();
         }
-      }
+      });
     }
   }
 
@@ -93,7 +100,7 @@
   });
 
   // При изменении поля "Тип" задаётся соответствующее минимальное значение для поля "Цена за ночь"
-  FormElements.type.addEventListener('change', window.checkTypeOfHousing);
+  FormElements.type.addEventListener('change', onFormElementsTypeChange);
 
   // Синхронизуем поля даты въезда/выезда
   FormElements.timein.addEventListener('change', function () {

@@ -4,11 +4,11 @@
   var mapElement = document.querySelector('.map');
   var mainPinElement = document.querySelector('.map__pin--main');
 
-  var limits = {
-    top: 130 - 80,
-    right: mapElement.offsetWidth - mainPinElement.offsetWidth / 2,
-    bottom: 630 - 82,
-    left: 0 - mainPinElement.offsetWidth / 2
+  var Limits = {
+    TOP: 130 - 80,
+    RIGHT: mapElement.offsetWidth - mainPinElement.offsetWidth / 2,
+    BOTTOM: 630 - 82,
+    LEFT: 0 - mainPinElement.offsetWidth / 2
   };
 
   function Coordinate(x, y) {
@@ -24,7 +24,7 @@
     mainPinElement.style.top = defaultCoords.y + 'px';
   };
 
-  window.setDragAndDrop = function (evt) {
+  function setDragAndDrop(evt) {
     evt.preventDefault();
 
     var startCoords = new Coordinate(evt.clientX, evt.clientY);
@@ -36,18 +36,18 @@
       startCoords = new Coordinate(moveEvt.clientX, moveEvt.clientY);
 
       // Если метка уходит за координату, то не пускать её туда.
-      if (parseInt(mainPinElement.style.left, 10) > limits.right) {
-        mainPinElement.style.left = limits.right + 'px';
-      } else if (parseInt(mainPinElement.style.left, 10) < limits.left) {
-        mainPinElement.style.left = limits.left + 'px';
+      if (parseInt(mainPinElement.style.left, 10) > Limits.RIGHT) {
+        mainPinElement.style.left = Limits.RIGHT + 'px';
+      } else if (parseInt(mainPinElement.style.left, 10) < Limits.LEFT) {
+        mainPinElement.style.left = Limits.LEFT + 'px';
       } else {
         mainPinElement.style.left = (mainPinElement.offsetLeft - shift.x) + 'px';
       }
 
-      if (parseInt(mainPinElement.style.top, 10) < limits.top) {
-        mainPinElement.style.top = limits.top + 'px';
-      } else if (parseInt(mainPinElement.style.top, 10) > limits.bottom) {
-        mainPinElement.style.top = limits.bottom + 'px';
+      if (parseInt(mainPinElement.style.top, 10) < Limits.TOP) {
+        mainPinElement.style.top = Limits.TOP + 'px';
+      } else if (parseInt(mainPinElement.style.top, 10) > Limits.BOTTOM) {
+        mainPinElement.style.top = Limits.BOTTOM + 'px';
       } else {
         mainPinElement.style.top = (mainPinElement.offsetTop - shift.y) + 'px';
       }
@@ -62,6 +62,9 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  };
+  }
+
+  // Добавим Drag'n'Drop
+  mainPinElement.addEventListener('mousedown', setDragAndDrop);
 
 })();

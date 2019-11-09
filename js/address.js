@@ -11,7 +11,7 @@
 
   function getAngleCoods() {
     return {
-      x: mainPinElement.offsetLeft - MAIN_PIN_WIDTH / 2,
+      x: mainPinElement.offsetLeft + MAIN_PIN_WIDTH / 2,
       y: mainPinElement.offsetTop + MAIN_PIN_HEIGHT - MAIN_PIN_IMG_BORDER_WIDTH + MAIN_PIN_PSEUDO_AFTER_HEIGHT
     };
   }
@@ -32,7 +32,7 @@
   // Изначально - false, т.к. интерфейс выключен. По включению - true
   window.fillAddress = function (isActive) {
     var mainPinCoords = {
-      x: mainPinElement.offsetLeft - MAIN_PIN_WIDTH / 2,
+      x: mainPinElement.offsetLeft + MAIN_PIN_WIDTH / 2,
       y: mainPinElement.offsetTop + MAIN_PIN_HEIGHT / 2
     };
 
