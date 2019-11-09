@@ -8,6 +8,13 @@
     PALACE: 10000
   };
 
+  var HouseTypes = {
+    BUNGALO: 'bungalo',
+    FLAT: 'flat',
+    HOUSE: 'house',
+    PALACE: 'palace'
+  };
+
   var BIG_QUANTITY_OF_GUESTS = 100;
 
   var adFormElement = document.querySelector('.ad-form');
@@ -33,19 +40,19 @@
 
   // Функция, проверяющая тип жилья в объявлении
   window.checkTypeOfHousing = function () {
-    if (FormElements.type.value === 'bungalo') {
+    if (FormElements.type.value === HouseTypes.BUNGALO) {
       changePriceElement(MinPrices.BUNGALO);
     }
 
-    if (FormElements.type.value === 'flat') {
+    if (FormElements.type.value === HouseTypes.FLAT) {
       changePriceElement(MinPrices.FLAT);
     }
 
-    if (FormElements.type.value === 'house') {
+    if (FormElements.type.value === HouseTypes.HOUSE) {
       changePriceElement(MinPrices.HOUSE);
     }
 
-    if (FormElements.type.value === 'palace') {
+    if (FormElements.type.value === HouseTypes.PALACE) {
       changePriceElement(MinPrices.PALACE);
     }
   };
