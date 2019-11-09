@@ -14,13 +14,13 @@
   }
 
   function onMainPinElementMousedown() {
-    window.enableInterface();
+    window.enable();
     mainPinElement.removeEventListener('mousedown', onMainPinElementMousedown);
     mainPinElement.removeEventListener('keydown', onMainPinElementEnterPress);
   }
 
   // Функции выключения интерфейса
-  window.disableInterface = function () {
+  window.disable = function () {
     mapElement.classList.add('map--faded');
     adFormElement.classList.add('ad-form--disabled');
 
@@ -34,7 +34,7 @@
   };
 
   // Изначально интерфейс отключен. Запустим сразу функцию, отключающую интерфейс
-  window.disableInterface();
+  window.disable();
 })();
 
 

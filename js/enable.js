@@ -23,7 +23,7 @@
   }
 
   // Функции включения интерфейса
-  window.enableInterface = function () {
+  window.enable = function () {
     mapElement.classList.remove('map--faded');
     adFormElement.classList.remove('ad-form--disabled');
 
