@@ -66,11 +66,24 @@
     return undefined;
   }
 
-  // Нужно добавить соответствующую feature в соответствующий элемент с классом
+  // Нужно добавить соответствующую feature в соответствующий элемент с одноимённым по модификатору классом
 
-  function formateFeatures(data) {
-    if (data) {
-      return data.join(', ');
+  function formateFeatures(features, featuresListElement) {
+    featuresListElement.innerHTML = '';
+
+    if (features.length) {
+      var featuresFragment = new DocumentFragment();
+      // Возьмём в текстовом формате каждое feature
+      features.forEach(function (it) {
+        var featureListItem = document.createElement('li');
+        featureListItem.classList.add('popup__feature', 'popup__feature--' + it);
+        featureListItem.textContent = it;
+        featuresFragment.appendChild(featureListItem);
+      });
+
+      featuresListElement.appendChild(featuresFragment);
+
+      return featuresListElement;
     }
 
     return undefined;
@@ -103,7 +116,15 @@
 
     popupOfferElements.time.textContent = formateTime(advertise.offer.checkin, advertise.offer.checkout);
 
-    popupOfferElements.features.textContent = formateFeatures(checkExsistance(advertise.offer.features));
+
+
+
+
+    formateFeatures(checkExsistance(advertise.offer.features), popupOfferElements.features);
+
+
+
+
 
     popupOfferElements.description.textContent = checkExsistance(advertise.offer.description);
 
