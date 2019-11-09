@@ -116,15 +116,7 @@
 
     popupOfferElements.time.textContent = formateTime(advertise.offer.checkin, advertise.offer.checkout);
 
-
-
-
-
     formateFeatures(checkExsistance(advertise.offer.features), popupOfferElements.features);
-
-
-
-
 
     popupOfferElements.description.textContent = checkExsistance(advertise.offer.description);
 

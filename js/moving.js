@@ -62,8 +62,7 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  };
-
+  }
 
   // Добавим Drag'n'Drop
   mainPinElement.addEventListener('mousedown', setDragAndDrop);

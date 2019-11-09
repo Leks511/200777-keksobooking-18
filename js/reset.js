@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var mainPinElement = document.querySelector('.map__pin--main');
   var resetButtonElement = document.querySelector('.ad-form__reset');
   var resetingElements = document.querySelectorAll('select[id^="housing-"], input[id^="filter-"], #type,  #title, #price, #timein, #timeout, #description, .feature__checkbox');
 
