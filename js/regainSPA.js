@@ -26,7 +26,7 @@
     setDeafultValues();
     window.checkTypeOfHousing();
     window.clear();
-    window.disableInterface();
+    window.disable();
     window.setDefaultCoords();
     window.fillAddress(false);
   };
