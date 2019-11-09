@@ -16,7 +16,7 @@
       pin.classList.add('map__pin--active');
     }
 
-    function disableActiveAdvertisement() {
+    function onClosePopupButtonClick() {
       disablePins();
       hidePopups();
     }
@@ -24,7 +24,7 @@
     // При открытом popup закрыть его по нажатию на ESC
     function onPopupESCPress(evt) {
       if (evt.keyCode === window.Codes.ESC) {
-        disableActiveAdvertisement();
+        onClosePopupButtonClick();
       }
     }
 
@@ -48,7 +48,7 @@
 
       closePopupButton = element.querySelector('.popup__close');
 
-      closePopupButton.addEventListener('click', disableActiveAdvertisement);
+      closePopupButton.addEventListener('click', onClosePopupButtonClick);
       document.addEventListener('keydown', onPopupESCPress);
     }
 
@@ -58,25 +58,12 @@
       showPopup(popup);
     }
 
-    function onPinKeydownPress(evt, pin, popup) {
-      if (evt.keyCode === window.code.ENTER) {
-        disablePins();
-        setActiveToPin(pin);
-        showPopup(popup);
-      }
-    }
-
     // По нажатию на пин откроем соответствующую карточку
     pinElements.forEach(function (pin, index) {
       pin.addEventListener('click', function () {
         changeAdvertisement(pin, popupElements[index]);
       });
-
-      pin.addEventListener('keydown', function (evt) {
-        onPinKeydownPress(evt, pin, popupElements[index]);
-      });
     });
-
     // Сразу скроем карточки
     hidePopups();
   };

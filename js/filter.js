@@ -8,6 +8,12 @@
     GUESTS: 3
   };
 
+  var PriceLevels = {
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'high'
+  };
+
   var housingFilterElements = document.querySelectorAll('select[id^="housing-"]');
   var featureFilterElements = document.querySelectorAll('input[id^="filter-"]');
   var filterElements = document.querySelectorAll('select[id^="housing-"], input[id^="filter-"]');
@@ -22,17 +28,16 @@
     },
     // Функция, приводящая значение к строковому значению
     transformToString: function (val) {
-      var newStr = val.toString();
-      return newStr;
+      return val.toString();
     },
     // Функция приведения значения цены объявления к сравниваемому виду
     getPriceLabel: function (price) {
       if (price < 10000) {
-        price = 'low';
+        price = PriceLevels.LOW;
       } else if (price >= 10000 && price <= 50000) {
-        price = 'middle';
+        price = PriceLevels.MIDDLE;
       } else {
-        price = 'high';
+        price = PriceLevels.HIGH;
       }
       return price;
     }
@@ -46,9 +51,9 @@
 
     if (result[0]) {
       return result[0];
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   // Функция, фильтрующая по чекбоксам (features)
@@ -96,9 +101,9 @@
 
   // Функция заполнения массива фильтрующими функциями
   function fillFilteringFunctionList(filteringElements, handler) {
-    for (var i = 0; i < filteringElements.length; i++) {
+    filteringElements.forEach(function () {
       filters.push(handler);
-    }
+    });
   }
 
   // Функция, запускающая фильтр массива объявлений

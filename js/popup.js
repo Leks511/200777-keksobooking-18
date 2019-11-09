@@ -11,9 +11,9 @@
       return 'Бунгало';
     } else if (housingType === 'house') {
       return 'Дом';
-    } else {
-      return 'Дворец';
     }
+
+    return 'Дворец';
   }
 
   function createImgElement(address) {
@@ -37,41 +37,43 @@
   function checkExsistance(data) {
     if (data) {
       return data;
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 
   function formatePrice(data) {
     if (data) {
       return data.toString() + '₽/ночь';
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 
   function formateCapacity(rooms, guests) {
     if (rooms && guests) {
       return rooms.toString() + ' комнаты для ' + guests.toString() + ' гостей';
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 
   function formateTime(checkin, checkout) {
     if (checkin && checkout) {
       return 'Заезд после ' + checkin.toString() + ', выезд до ' + checkout.toString();
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
+
+  // Нужно добавить соответствующую feature в соответствующий элемент с классом
 
   function formateFeatures(data) {
     if (data) {
       return data.join(', ');
-    } else {
-      return undefined;
     }
+
+    return undefined;
   }
 
   window.createPopup = function (advertise) {
